@@ -71,6 +71,20 @@
   .contact a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4);}
   .contact a:hover{border-color:#fff;text-decoration:none;}
   .contact span{opacity:.85;}
+  .head-flex{display:flex;align-items:center;gap:38px;justify-content:space-between;}
+  .head-text{flex:1;min-width:0;}
+  .head-photo{
+    width:172px;height:230px;
+    object-fit:cover;object-position:center top;
+    border-radius:14px;
+    border:3px solid rgba(255,255,255,.55);
+    box-shadow:0 10px 28px rgba(0,0,0,.28);
+    flex-shrink:0;
+  }
+  @media (max-width:600px){
+    .head-flex{flex-direction:column-reverse;align-items:flex-start;gap:22px;}
+    .head-photo{width:132px;height:176px;}
+  }
 
   /* Layout */
   main{
@@ -173,55 +187,27 @@
 <body>
 
 <header>
-  <div class="head-inner">
-    <h1>이진규</h1>
-    <div class="en">Jin-Gyu Lee</div>
-    <div class="role">M.D. – Ph.D. Candidate · Physician-Scientist</div>
-    <div class="aff">
-      서울대학교 공과대학 협동과정 바이오엔지니어링전공 · Brain–Machine Interface Lab<br>
-      경북대학교 의과대학 (M.D., 2023)
+  <div class="head-inner head-flex">
+    <div class="head-text">
+      <h1>이진규</h1>
+      <div class="en">Jin-Gyu Lee</div>
+      <div class="role">M.D. – Ph.D. Candidate · Physician-Scientist</div>
+      <div class="aff">
+        서울대학교 공과대학 협동과정 바이오엔지니어링전공 · Brain–Machine Interface Lab<br>
+        경북대학교 의과대학 (M.D., 2023)
+      </div>
+      <div class="contact">
+        <a href="mailto:comjingue@gmail.com">comjingue@gmail.com</a>
+        <a href="https://www.instagram.com/jingyulee___/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://search.naver.com/search.naver?where=nexearch&amp;sm=tab_etc&amp;mra=bjky&amp;pkid=1&amp;os=37448432&amp;qvt=0&amp;query=%EC%9D%B4%EC%A7%84%EA%B7%9C" target="_blank" rel="noopener">네이버 인물</a>
+        <span>Seoul, Republic of Korea</span>
+      </div>
     </div>
-    <div class="contact">
-      <a href="mailto:comjingue@gmail.com">comjingue@gmail.com</a>
-      <span>Seoul, Republic of Korea</span>
-    </div>
+    <img class="head-photo" src="profile.jpg" alt="이진규 프로필 사진" onerror="this.style.display='none'">
   </div>
 </header>
 
 <main>
-
-  <section id="interests">
-    <h2>Research Interests</h2>
-
-    <div class="ri">
-      <span class="tag">Flexible Electronics</span>
-      <p>LM–fCNT (Liquid Metal–functionalized Carbon Nanotube) 기반 유연 스트레인 센서 개발</p>
-    </div>
-    <div class="ri">
-      <span class="tag">AI Scoliosis Management</span>
-      <p>3D EOS · surface EMG · 머신러닝 기반 척추측만증 분류 및 관리 시스템</p>
-    </div>
-    <div class="ri">
-      <span class="tag">TCR Orthosis + Targeted Botox</span>
-      <p>소아 회전 변형(internal tibial torsion, in-toeing gait) 치료를 위한 Tibial Counter Rotator 보조기와 초음파 유도하 soleus·tibialis posterior 보툴리눔 톡신 A 주입 결합 프로토콜 — dynamic equinovarus 해소를 통한 교정 시간 단축 (n=348 후향적 코호트 분석)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">MSK Ultrasound</span>
-      <p>진단·중재적 초음파 임상 응용 (anterior approach via interosseous membrane 등)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">Clinical AI Agents</span>
-      <p>외래 진료 및 임상 의사결정 지원 LLM 기반 에이전트 개발</p>
-    </div>
-    <div class="ri">
-      <span class="tag">BIA Patch Technology</span>
-      <p>Soleus muscle 모니터링을 위한 유연 BIA 패치 (sarcopenia 진단 응용)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">MSK AI Platform</span>
-      <p>통증 관리 의료기기 및 재활의학 융합 플랫폼 구축</p>
-    </div>
-  </section>
 
   <section id="education">
     <h2>Education &amp; Training</h2>
@@ -250,13 +236,45 @@
     </div>
   </section>
 
+  <section id="interests">
+    <h2>Research Interests</h2>
+
+    <div class="ri">
+      <span class="tag">Flexible Electronics</span>
+      <p>LM (Liquid Metal) 기반 유연 센서 · physical AI 학습을 위한 데이터 수집 및 플랫폼 설계</p>
+    </div>
+    <div class="ri">
+      <span class="tag">AI Scoliosis Management</span>
+      <p>3D EOS · surface EMG · 머신러닝 기반 척추측만증 분류 및 관리 시스템</p>
+    </div>
+    <div class="ri">
+      <span class="tag">TCR Orthosis + Targeted Botox</span>
+      <p>소아 회전 변형(internal tibial torsion, in-toeing gait) 치료를 위한 Tibial Counter Rotator 보조기와 초음파 유도하 soleus·tibialis posterior 보툴리눔 톡신 A 주입 결합 프로토콜 — dynamic equinovarus 해소를 통한 교정 시간 단축 (n=348 후향적 코호트 분석)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">MSK Ultrasound</span>
+      <p>진단·중재적 초음파 임상 응용 (anterior approach via interosseous membrane 등)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">Clinical AI Agents</span>
+      <p>외래 진료 및 임상 의사결정 지원 LLM 기반 에이전트 개발</p>
+    </div>
+    <div class="ri">
+      <span class="tag">BIA Patch Technology</span>
+      <p>Soleus muscle 모니터링을 위한 위연 BIA 패치 (sarcopenia 진단 응용)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">MSK AI Platform</span>
+      <p>통증 관리 의료기기 및 재활의학 융합 플랫폼 구축</p>
+    </div>
+  </section>
+
   <section id="certs">
     <h2>Clinical Certifications &amp; Skills</h2>
 
     <ul class="clean">
       <li>대한정형통증학회 TPI (Trigger Point Injection) 교육 이수, 2024</li>
       <li>한국초음파학회 평생회원 및 상복부 초음파 인증의, 2025</li>
-      <li>서울대학교병원 재활의학과 MSK Ultrasound Class 수강, 2025 ~ present</li>
     </ul>
 
     <div class="skill-block" style="margin-top:18px;">
@@ -331,13 +349,13 @@
     <h2>Publications</h2>
 
     <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Calculation of Socioeconomic Cost of Depression in Korea in 2019.” <span class="pub-venue">Korean Journal of Biological Psychiatry</span> 27(3): 237–244 (2021).</div>
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://doi.org/10.22802/jksbtp.2021.27.3.237" target="_blank" rel="noopener">Calculation of Socioeconomic Cost of Depression in Korea in 2019.</a>” <span class="pub-venue">Korean Journal of Biological Psychiatry</span> 27(3): 237–244 (2021).</div>
     </div>
     <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Radius palmar plate removal without carpal tunnel release: Correlation between plate position and median nerve symptoms.” <span class="pub-venue">Hand Surgery and Rehabilitation</span> 42(3): 230–235 (2023). [Elsevier Masson]</div>
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://doi.org/10.1016/j.hansur.2023.03.012" target="_blank" rel="noopener">Radius palmar plate removal without carpal tunnel release: Correlation between plate position and median nerve symptoms.</a>” <span class="pub-venue">Hand Surgery and Rehabilitation</span> 42(3): 230–235 (2023). [Elsevier Masson]</div>
     </div>
     <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Analysis of the mechanism and clinical classification of thoracolumbar scoliosis using three-dimensional EOS and surface electromyography.” <span class="pub-venue">Heliyon (Cell Press)</span> 9(9): e19510 (2023).</div>
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://doi.org/10.1016/j.heliyon.2023.e19510" target="_blank" rel="noopener">Analysis of the mechanism and clinical classification of thoracolumbar scoliosis using three-dimensional EOS and surface electromyography.</a>” <span class="pub-venue">Heliyon (Cell Press)</span> 9(9): e19510 (2023).</div>
     </div>
     <div class="item">
       <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Efficacy of Tibial Counter Rotator (TCR) Orthosis and Botulinum Toxin A in Children with Rotational Deformities: A Retrospective Cohort Study.” <span class="pub-venue">Under review / In preparation</span>, 2026.</div>
@@ -382,8 +400,8 @@
       <li>서울대학교병원 학부 연구 인턴 프로그램 최우수 연구상, 2018</li>
       <li>관정 이종환 장학재단 11기 장학생, 2016–2018</li>
       <li>포항공과대학교 최우수 성적 졸업생 (숨마쿰라우데), 2015</li>
-      <li>포항공과대학교 학부 연구 프로그램 최우수 연구상, 2014</li>
-      <li>포항공과대학교 화학공학과 학부 최우수 연구상, 2014</li>
+      <li>포항공과대학ꭐ 학부 연구 프로그램 최우수 연구상, 2014</li>
+      <li>포항공과대학ꭐ 화학공학과 학부 최우수 연구상, 2014</li>
       <li>포항공과대학교 이공계장학금, 2011–2015</li>
     </ul>
   </section>
@@ -391,7 +409,7 @@
 </main>
 
 <footer>
-  © 2026 이진규 (Jin-Gyu Lee) · Curriculum Vitae · Last updated 2026.05
+  © 2026 이진규 (Jin-Gyu Lee) · Curriculum Vitae · Last updated 2026.06
 </footer>
 
 </body>
