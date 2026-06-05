@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이진규 (Jin-Gyu Lee) — Curriculum Vitae</title>
+<meta name="description" content="이진규 (Jin-Gyu Lee), M.D.–Ph.D. Candidate. Physician-scientist. Flexible electronics, AI-based scoliosis management, musculoskeletal ultrasound.">
+<style>
+  :root{
+    --ink:#1a2430;
+    --muted:#5d6b7a;
+    --line:#e3e8ee;
+    --accent:#0e6e6e;
+    --accent-soft:#e6f1f1;
+    --bg:#ffffff;
+    --paper:#fbfcfd;
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Inter","Helvetica Neue","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.65;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* Header */
+  header{
+    background:linear-gradient(135deg,#0e6e6e 0%,#12454f 100%);
+    color:#fff;
+    padding:64px 24px 56px;
+  }
+  .head-inner{max-width:var(--maxw);margin:0 auto;}
+  header h1{
+    margin:0;
+    font-size:2.6rem;
+    font-weight:700;
+    letter-spacing:-.02em;
+  }
+  header .en{
+    font-size:1.15rem;
+    font-weight:400;
+    opacity:.85;
+    margin-top:4px;
+  }
+  header .role{
+    margin-top:18px;
+    font-size:1.05rem;
+    font-weight:500;
+    opacity:.95;
+  }
+  header .aff{
+    margin-top:6px;
+    font-size:.98rem;
+    opacity:.8;
+    line-height:1.5;
+  }
+  .contact{
+    margin-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 22px;
+    font-size:.92rem;
+  }
+  .contact a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4);}
+  .contact a:hover{border-color:#fff;text-decoration:none;}
+  .contact span{opacity:.85;}
+
+  /* Layout */
+  main{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:8px 24px 80px;
+  }
+  section{
+    padding:36px 0 8px;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-child{border-bottom:none;}
+  h2{
+    font-size:.82rem;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:var(--accent);
+    font-weight:700;
+    margin:0 0 22px;
+  }
+
+  .item{margin-bottom:20px;}
+  .item:last-child{margin-bottom:4px;}
+  .item .top{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    align-items:baseline;
+    flex-wrap:wrap;
+  }
+  .item .title{font-weight:600;color:var(--ink);}
+  .item .date{
+    color:var(--muted);
+    font-size:.86rem;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+  .item .sub{color:var(--muted);font-size:.95rem;margin-top:2px;}
+  .item .desc{margin-top:6px;font-size:.95rem;color:#3c4859;}
+
+  /* Research interest cards */
+  .ri{margin-bottom:18px;}
+  .ri .tag{
+    display:inline-block;
+    background:var(--accent-soft);
+    color:var(--accent);
+    font-size:.78rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:999px;
+    margin-bottom:6px;
+  }
+  .ri p{margin:0;font-size:.95rem;color:#3c4859;}
+
+  /* skill chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .chip{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:5px 11px;
+    font-size:.85rem;
+    color:#3c4859;
+  }
+  .skill-block{margin-bottom:16px;}
+  .skill-block .lbl{font-weight:600;font-size:.92rem;margin-bottom:7px;color:var(--ink);}
+
+  ul.clean{margin:0;padding-left:0;list-style:none;}
+  ul.clean li{
+    position:relative;
+    padding-left:18px;
+    margin-bottom:9px;
+    font-size:.95rem;
+    color:#3c4859;
+  }
+  ul.clean li::before{
+    content:"";
+    position:absolute;
+    left:0;top:.62em;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--accent);
+  }
+  .pub-authors b{color:var(--ink);}
+  .pub-venue{color:var(--muted);font-style:italic;}
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.82rem;
+    padding:32px 24px 48px;
+  }
+  @media (max-width:560px){
+    header{padding:48px 20px 40px;}
+    header h1{font-size:2rem;}
+    main{padding:8px 20px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <h1>이진규</h1>
+    <div class="en">Jin-Gyu Lee</div>
+    <div class="role">M.D. – Ph.D. Candidate · Physician-Scientist</div>
+    <div class="aff">
+      서울대학교 공과대학 협동과정 바이오엔지니어링전공 · Brain–Machine Interface Lab<br>
+      경북대학교 의과대학 (M.D., 2023)
+    </div>
+    <div class="contact">
+      <a href="mailto:comjingue@gmail.com">comjingue@gmail.com</a>
+      <span>Seoul, Republic of Korea</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="interests">
+    <h2>Research Interests</h2>
+
+    <div class="ri">
+      <span class="tag">Flexible Electronics</span>
+      <p>LM–fCNT (Liquid Metal–functionalized Carbon Nanotube) 기반 유연 스트레인 센서 개발</p>
+    </div>
+    <div class="ri">
+      <span class="tag">AI Scoliosis Management</span>
+      <p>3D EOS · surface EMG · 머신러닝 기반 척추측만증 분류 및 관리 시스템</p>
+    </div>
+    <div class="ri">
+      <span class="tag">TCR Orthosis + Targeted Botox</span>
+      <p>소아 회전 변형(internal tibial torsion, in-toeing gait) 치료를 위한 Tibial Counter Rotator 보조기와 초음파 유도하 soleus·tibialis posterior 보툴리눔 톡신 A 주입 결합 프로토콜 — dynamic equinovarus 해소를 통한 교정 시간 단축 (n=348 후향적 코호트 분석)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">MSK Ultrasound</span>
+      <p>진단·중재적 초음파 임상 응용 (anterior approach via interosseous membrane 등)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">Clinical AI Agents</span>
+      <p>외래 진료 및 임상 의사결정 지원 LLM 기반 에이전트 개발</p>
+    </div>
+    <div class="ri">
+      <span class="tag">BIA Patch Technology</span>
+      <p>Soleus muscle 모니터링을 위한 유연 BIA 패치 (sarcopenia 진단 응용)</p>
+    </div>
+    <div class="ri">
+      <span class="tag">MSK AI Platform</span>
+      <p>통증 관리 의료기기 및 재활의학 융합 플랫폼 구축</p>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education &amp; Training</h2>
+
+    <div class="item">
+      <div class="top"><span class="title">서울대학교 공과대학 협동과정 바이오엔지니어링전공 (Ph.D. Candidate)</span><span class="date">2025.09 – present</span></div>
+      <div class="sub">Brain–Machine Interface Lab</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">경북대학교병원 인턴 수료</span><span class="date">2024</span></div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">경북대학교 의과대학 졸업 (M.D.)</span><span class="date">2023</span></div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">일리노이 주립대학교 (UIUC) 화학과 방문연구원</span><span class="date">2018</span></div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">서울대학교 화학생물공학부 석사 (M.S.)</span><span class="date">2018</span></div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">포항공과대학교 (POSTECH) 화학공학 학사 — 숨마쿰라우데</span><span class="date">2015</span></div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">전북과학고등학교 졸업</span><span class="date">2011</span></div>
+    </div>
+  </section>
+
+  <section id="certs">
+    <h2>Clinical Certifications &amp; Skills</h2>
+
+    <ul class="clean">
+      <li>대한정형통증학회 TPI (Trigger Point Injection) 교육 이수, 2024</li>
+      <li>한국초음파학회 평생회원 및 상복부 초음파 인증의, 2025</li>
+      <li>서울대학교병원 재활의학과 MSK Ultrasound Class 수강, 2025 ~ present</li>
+    </ul>
+
+    <div class="skill-block" style="margin-top:18px;">
+      <div class="lbl">C-arm guided nerve block</div>
+      <div class="chips">
+        <span class="chip">L-MBB</span><span class="chip">L-FJB</span><span class="chip">L-SNRB</span>
+        <span class="chip">C-MBB</span><span class="chip">C-FJB</span><span class="chip">TMBB</span>
+        <span class="chip">caudal EB</span><span class="chip">piriformis block</span><span class="chip">psoas block</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="lbl">USG-guided injection</div>
+      <div class="chips">
+        <span class="chip">shoulder</span><span class="chip">elbow</span><span class="chip">wrist</span>
+        <span class="chip">finger</span><span class="chip">knee</span><span class="chip">ankle</span><span class="chip">plantar</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="lbl">USG-guided Botox injection</div>
+      <div class="chips">
+        <span class="chip">soleus (posterior approach)</span>
+        <span class="chip">tibialis posterior (anterior approach via interosseous membrane)</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="lbl">Prolotherapy</div>
+      <div class="chips">
+        <span class="chip">elbow</span><span class="chip">ankle</span><span class="chip">wrist</span>
+        <span class="chip">knee</span><span class="chip">scapula</span><span class="chip">leg</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>Work Experience</h2>
+
+    <div class="item">
+      <div class="top"><span class="title">Ph.D. Candidate — 서울대학교 협동과정 바이오엔지니어링전공</span><span class="date">2025.09 – present</span></div>
+      <div class="sub">Brain–Machine Interface Lab</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">위풍당당재활의학과의원 — 외래진료</span><span class="date">2025.05 – 2025.08</span></div>
+      <div class="sub">Primary care physician</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">영남속연합내과의원 — 외래진료</span><span class="date">2024.05 – 2025.05</span></div>
+      <div class="sub">Primary care physician</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">로컬 피부과의원 근무</span><span class="date">2024.03 – 2024.05</span></div>
+      <div class="sub">Primary care physician</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">경북대병원 수련의 (인턴)</span><span class="date">2023.03 – 2024.02</span></div>
+      <div class="sub">Residency training</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">경북대병원 재활의학과 임상 선택실습</span><span class="date">2022.07 – 2022.08</span></div>
+      <div class="sub">Sub-internship program</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">분당서울대학교병원 재활의학과 임상 선택실습 및 방문연구</span><span class="date">2022.01</span></div>
+      <div class="sub">Clerkship program</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">예수병원 재활의학과 임상 선택실습</span><span class="date">2021.01 – 2021.02</span></div>
+      <div class="sub">Sub-internship program</div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+
+    <div class="item">
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Calculation of Socioeconomic Cost of Depression in Korea in 2019.” <span class="pub-venue">Korean Journal of Biological Psychiatry</span> 27(3): 237–244 (2021).</div>
+    </div>
+    <div class="item">
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Radius palmar plate removal without carpal tunnel release: Correlation between plate position and median nerve symptoms.” <span class="pub-venue">Hand Surgery and Rehabilitation</span> 42(3): 230–235 (2023). [Elsevier Masson]</div>
+    </div>
+    <div class="item">
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Analysis of the mechanism and clinical classification of thoracolumbar scoliosis using three-dimensional EOS and surface electromyography.” <span class="pub-venue">Heliyon (Cell Press)</span> 9(9): e19510 (2023).</div>
+    </div>
+    <div class="item">
+      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Efficacy of Tibial Counter Rotator (TCR) Orthosis and Botulinum Toxin A in Children with Rotational Deformities: A Retrospective Cohort Study.” <span class="pub-venue">Under review / In preparation</span>, 2026.</div>
+    </div>
+  </section>
+
+  <section id="patents">
+    <h2>Patents</h2>
+    <ul class="clean">
+      <li>국내특허 제 10-2016-1843265 호, 「약물 전달 장치」 (2016)</li>
+      <li>국내특허 제 10-2016-0082919 호, 「바이오 센싱 장치」 (2016)</li>
+      <li>PCT Patent No. WO2018004182A1, “Biosensing device and drug delivery device” (2016)</li>
+    </ul>
+  </section>
+
+  <section id="grants">
+    <h2>Grants &amp; Funding</h2>
+
+    <div class="item">
+      <div class="top"><span class="title">융합형 의사과학자 양성사업 (전일제 과정)</span><span class="date">2025 – present</span></div>
+      <div class="sub">보건복지부 · 한국보건산업진흥원 (진행 중)</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">예비창업패키지 지원사업</span><span class="date">2022</span></div>
+      <div class="sub">중소벤처기업부 · 스타트업 「리해피」 대표</div>
+    </div>
+    <div class="item">
+      <div class="top"><span class="title">K-창업클럽 지원사업</span><span class="date">2022</span></div>
+      <div class="sub">중소벤처기업부</div>
+    </div>
+  </section>
+
+  <section id="awards">
+    <h2>Honours &amp; Awards</h2>
+    <ul class="clean">
+      <li>KYPSN (한국청년의사과학자네트워크) 창립 대표 — 비영리 임의단체, 2026 ~ present</li>
+      <li>「人 Star (인스타)」 비영리 임의단체 대표, 2021.01</li>
+      <li>KNU 영예장학생, 경북대학교, 2021.05</li>
+      <li>한국 지도자육성 장학재단 장학생, 2021–2022</li>
+      <li>대한민국 인재상, 교육부, 2020</li>
+      <li>경북대학교 의과대학 성적우수장학금, 2019–2020</li>
+      <li>서울대학교병원 학부 연구 인턴 프로그램 최우수 연구상, 2018</li>
+      <li>관정 이종환 장학재단 11기 장학생, 2016–2018</li>
+      <li>포항공과대학교 최우수 성적 졸업생 (숨마쿰라우데), 2015</li>
+      <li>포항공과대학교 학부 연구 프로그램 최우수 연구상, 2014</li>
+      <li>포항공과대학교 화학공학과 학부 최우수 연구상, 2014</li>
+      <li>포항공과대학교 이공계장학금, 2011–2015</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 이진규 (Jin-Gyu Lee) · Curriculum Vitae · Last updated 2026.05
+</footer>
+
+</body>
+</html>
