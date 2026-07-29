@@ -171,6 +171,51 @@
   .pub-authors b{color:var(--ink);}
   .pub-venue{color:var(--muted);font-style:italic;}
 
+  /* Media */
+  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;}
+  .media-card{
+    display:block;
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--bg);
+    color:inherit;
+    text-decoration:none;
+    transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .media-card:hover{
+    text-decoration:none;
+    box-shadow:0 6px 20px rgba(14,110,110,.13);
+    border-color:var(--accent);
+    transform:translateY(-2px);
+  }
+  .media-thumb{position:relative;aspect-ratio:16/9;background:#0d1418;}
+  .media-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .media-thumb .play{
+    position:absolute;left:50%;top:50%;
+    width:52px;height:52px;margin:-26px 0 0 -26px;
+    border-radius:50%;
+    background:rgba(14,110,110,.88);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .media-thumb .play::after{
+    content:"";
+    border-left:15px solid #fff;
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+    margin-left:4px;
+  }
+  .media-thumb .dur{
+    position:absolute;right:8px;bottom:8px;
+    background:rgba(0,0,0,.78);color:#fff;
+    font-size:.74rem;padding:1px 6px;border-radius:3px;
+    letter-spacing:.02em;
+  }
+  .media-body{padding:13px 15px 15px;}
+  .media-body .m-title{font-weight:600;font-size:.96rem;color:var(--ink);line-height:1.45;}
+  .media-body .m-meta{margin-top:5px;font-size:.85rem;color:var(--muted);}
+  .media-body .m-desc{margin-top:8px;font-size:.88rem;color:#3c4859;line-height:1.55;}
+
   footer{
     text-align:center;
     color:var(--muted);
@@ -445,6 +490,26 @@
       <li>부산 동항교회 중고등부 — 간증, 2019.09</li>
       <li>하이데어(Hi There) 진로 멘토링 (진행 중), 2024 ~ 2026</li>
     </ul>
+  </section>
+
+  <section id="media">
+    <h2>Media &amp; Interviews</h2>
+    <div class="media-grid">
+
+      <a class="media-card" href="https://www.youtube.com/watch?v=_XOvhQ1yYFs" target="_blank" rel="noopener">
+        <div class="media-thumb">
+          <img src="https://i.ytimg.com/vi/_XOvhQ1yYFs/hqdefault.jpg" alt="[실터뷰] 죽음의 문턱에서 발견한 꿈 — 이진규 인터뷰 썸네일" loading="lazy">
+          <span class="play" aria-hidden="true"></span>
+          <span class="dur">17:01</span>
+        </div>
+        <div class="media-body">
+          <div class="m-title">[실터뷰] 죽음의 문턱에서 발견한 꿈</div>
+          <div class="m-meta">실소 (SilSo) · YouTube 인터뷰 · 2026.07</div>
+          <div class="m-desc">외상성 뇌출혈 이후의 회복과 「보너스 라이프」, 그리고 실패를 낙인이 아닌 자산으로 전환해 온 의사과학자로서의 여정에 관한 장편 인터뷰.</div>
+        </div>
+      </a>
+
+    </div>
   </section>
 
 </main>
