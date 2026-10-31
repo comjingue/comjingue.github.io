@@ -3,521 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이진규 (Jin-Gyu Lee) — Curriculum Vitae</title>
-<meta name="description" content="이진규 (Jin-Gyu Lee), M.D.–Ph.D. Candidate. Physician-scientist. Flexible electronics, AI-based scoliosis management, musculoskeletal ultrasound.">
+<title>이진규 (Jin-Gyu Lee)</title>
+<meta name="description" content="이진규 (Jin-Gyu Lee), M.D.–Ph.D. Candidate · Physician-Scientist · Frontree CMO. 명함과 이력서.">
+<meta property="og:title" content="이진규 (Jin-Gyu Lee)">
+<meta property="og:description" content="M.D.–Ph.D. Candidate · Physician-Scientist · Frontree CMO">
+<meta property="og:image" content="assets/profile.jpg">
 <style>
   :root{
-    --ink:#1a2430;
-    --muted:#5d6b7a;
-    --line:#e3e8ee;
-    --accent:#0e6e6e;
-    --accent-soft:#e6f1f1;
-    --bg:#ffffff;
-    --paper:#fbfcfd;
-    --maxw:880px;
+    --green:#0F4C3F;
+    --green-2:#0b3a30;
+    --orange:#F0703C;
+    --cream:#F6F1E7;
+    --ink:#1d2a26;
+    --muted:#5f6d68;
+    --line:#e2dccf;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html,body{height:100%;}
   body{
     margin:0;
-    font-family:"Inter","Helvetica Neue","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-family:"Pretendard","Inter","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     color:var(--ink);
-    background:var(--paper);
-    line-height:1.65;
-    font-size:16px;
+    background:var(--cream);
     -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;align-items:center;
   }
-  a{color:var(--accent);text-decoration:none;}
-  a:hover{text-decoration:underline;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{
+    width:100%;max-width:520px;
+    padding:64px 24px 40px;
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .photo{
+    width:112px;height:112px;border-radius:50%;
+    object-fit:cover;object-position:center 18%;
+    border:3px solid #fff;
+    box-shadow:0 8px 24px rgba(15,76,63,.18);
+  }
+  h1{margin:22px 0 0;font-size:2rem;letter-spacing:-.02em;font-weight:700;}
+  .en{margin-top:2px;color:var(--muted);font-size:1rem;}
+  .role{
+    margin-top:16px;text-align:center;
+    font-size:.95rem;line-height:1.6;color:#3d4a45;
+  }
+  .role .dot{color:var(--orange);margin:0 6px;}
 
-  /* Header */
-  header{
-    background:linear-gradient(135deg,#0e6e6e 0%,#12454f 100%);
-    color:#fff;
-    padding:64px 24px 56px;
+  .choices{
+    width:100%;margin-top:40px;
+    display:grid;gap:14px;
   }
-  .head-inner{max-width:var(--maxw);margin:0 auto;}
-  header h1{
-    margin:0;
-    font-size:2.6rem;
-    font-weight:700;
-    letter-spacing:-.02em;
-  }
-  header .en{
-    font-size:1.15rem;
-    font-weight:400;
-    opacity:.85;
-    margin-top:4px;
-  }
-  header .role{
-    margin-top:18px;
-    font-size:1.05rem;
-    font-weight:500;
-    opacity:.95;
-  }
-  header .aff{
-    margin-top:6px;
-    font-size:.98rem;
-    opacity:.8;
-    line-height:1.5;
-  }
-  .contact{
-    margin-top:24px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px 22px;
-    font-size:.92rem;
-  }
-  .contact a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4);}
-  .contact a:hover{border-color:#fff;text-decoration:none;}
-  .contact span{opacity:.85;}
-  .head-flex{display:flex;align-items:center;gap:38px;justify-content:space-between;}
-  .head-text{flex:1;min-width:0;}
-  .head-photo{
-    width:172px;height:230px;
-    object-fit:cover;object-position:center top;
-    border-radius:14px;
-    border:3px solid rgba(255,255,255,.55);
-    box-shadow:0 10px 28px rgba(0,0,0,.28);
-    flex-shrink:0;
-  }
-  @media (max-width:600px){
-    .head-flex{flex-direction:column-reverse;align-items:flex-start;gap:22px;}
-    .head-photo{width:132px;height:176px;}
-  }
-
-  /* Layout */
-  main{
-    max-width:var(--maxw);
-    margin:0 auto;
-    padding:8px 24px 80px;
-  }
-  section{
-    padding:36px 0 8px;
-    border-bottom:1px solid var(--line);
-  }
-  section:last-child{border-bottom:none;}
-  h2{
-    font-size:.82rem;
-    text-transform:uppercase;
-    letter-spacing:.14em;
-    color:var(--accent);
-    font-weight:700;
-    margin:0 0 22px;
-  }
-
-  .item{margin-bottom:20px;}
-  .item:last-child{margin-bottom:4px;}
-  .item .top{
-    display:flex;
-    justify-content:space-between;
-    gap:16px;
-    align-items:baseline;
-    flex-wrap:wrap;
-  }
-  .item .title{font-weight:600;color:var(--ink);}
-  .item .date{
-    color:var(--muted);
-    font-size:.86rem;
-    white-space:nowrap;
-    font-variant-numeric:tabular-nums;
-  }
-  .item .sub{color:var(--muted);font-size:.95rem;margin-top:2px;}
-  .item .desc{margin-top:6px;font-size:.95rem;color:#3c4859;}
-
-  /* Research interest cards */
-  .ri{margin-bottom:18px;}
-  .ri .tag{
-    display:inline-block;
-    background:var(--accent-soft);
-    color:var(--accent);
-    font-size:.78rem;
-    font-weight:700;
-    padding:3px 10px;
-    border-radius:999px;
-    margin-bottom:6px;
-  }
-  .ri p{margin:0;font-size:.95rem;color:#3c4859;}
-
-  /* skill chips */
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
-  .chip{
+  .choice{
+    display:flex;align-items:center;gap:18px;
+    padding:22px 22px;
+    border-radius:16px;
     background:#fff;
     border:1px solid var(--line);
-    border-radius:8px;
-    padding:5px 11px;
-    font-size:.85rem;
-    color:#3c4859;
+    transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
   }
-  .skill-block{margin-bottom:16px;}
-  .skill-block .lbl{font-weight:600;font-size:.92rem;margin-bottom:7px;color:var(--ink);}
-
-  ul.clean{margin:0;padding-left:0;list-style:none;}
-  ul.clean li{
-    position:relative;
-    padding-left:18px;
-    margin-bottom:9px;
-    font-size:.95rem;
-    color:#3c4859;
-  }
-  ul.clean li::before{
-    content:"";
-    position:absolute;
-    left:0;top:.62em;
-    width:6px;height:6px;
-    border-radius:50%;
-    background:var(--accent);
-  }
-  .pub-authors b{color:var(--ink);}
-  .pub-venue{color:var(--muted);font-style:italic;}
-
-  /* Media */
-  .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;}
-  .media-card{
-    display:block;
-    border:1px solid var(--line);
-    border-radius:10px;
-    overflow:hidden;
-    background:var(--bg);
-    color:inherit;
-    text-decoration:none;
-    transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease;
-  }
-  .media-card:hover{
-    text-decoration:none;
-    box-shadow:0 6px 20px rgba(14,110,110,.13);
-    border-color:var(--accent);
+  .choice:hover,.choice:focus-visible{
     transform:translateY(-2px);
+    box-shadow:0 10px 26px rgba(15,76,63,.12);
+    border-color:var(--green);
+    outline:none;
   }
-  .media-thumb{position:relative;aspect-ratio:16/9;background:#0d1418;}
-  .media-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-  .media-thumb .play{
-    position:absolute;left:50%;top:50%;
-    width:52px;height:52px;margin:-26px 0 0 -26px;
-    border-radius:50%;
-    background:rgba(14,110,110,.88);
+  .choice.primary{background:var(--green);border-color:var(--green);color:#fff;}
+  .choice.primary .sub{color:rgba(255,255,255,.72);}
+  .ico{
+    width:48px;height:48px;flex-shrink:0;border-radius:12px;
     display:flex;align-items:center;justify-content:center;
+    background:var(--cream);
   }
-  .media-thumb .play::after{
-    content:"";
-    border-left:15px solid #fff;
-    border-top:9px solid transparent;
-    border-bottom:9px solid transparent;
-    margin-left:4px;
-  }
-  .media-thumb .dur{
-    position:absolute;right:8px;bottom:8px;
-    background:rgba(0,0,0,.78);color:#fff;
-    font-size:.74rem;padding:1px 6px;border-radius:3px;
-    letter-spacing:.02em;
-  }
-  .media-body{padding:13px 15px 15px;}
-  .media-body .m-title{font-weight:600;font-size:.96rem;color:var(--ink);line-height:1.45;}
-  .media-body .m-meta{margin-top:5px;font-size:.85rem;color:var(--muted);}
-  .media-body .m-desc{margin-top:8px;font-size:.88rem;color:#3c4859;line-height:1.55;}
+  .choice.primary .ico{background:rgba(255,255,255,.1);}
+  .ico svg{width:24px;height:24px;}
+  .txt{flex:1;min-width:0;}
+  .ttl{font-size:1.12rem;font-weight:700;}
+  .sub{margin-top:2px;font-size:.86rem;color:var(--muted);}
+  .arrow{font-size:1.3rem;color:var(--orange);}
 
-  footer{
-    text-align:center;
-    color:var(--muted);
-    font-size:.82rem;
-    padding:32px 24px 48px;
+  .links{
+    margin-top:34px;
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;
+    font-size:.88rem;color:var(--muted);
   }
-  @media (max-width:560px){
-    header{padding:48px 20px 40px;}
-    header h1{font-size:2rem;}
-    main{padding:8px 20px 60px;}
-  }
+  .links a{border-bottom:1px solid transparent;}
+  .links a:hover{color:var(--green);border-color:var(--green);}
+  footer{padding:24px;font-size:.78rem;color:#8b968f;}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="head-inner head-flex">
-    <div class="head-text">
-      <h1>이진규</h1>
-      <div class="en">Jin-Gyu Lee</div>
-      <div class="role">M.D. – Ph.D. Candidate · Physician-Scientist</div>
-      <div class="aff">
-        서울대학교 공과대학 협동과정 바이오엔지니어링전공 · Brain–Machine Interface Lab<br>
-        경북대학교 의과대학 (M.D., 2023)
-      </div>
-      <div class="contact">
-        <a href="mailto:comjingue@gmail.com">comjingue@gmail.com</a>
-        <a href="https://www.instagram.com/jingyulee___/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://search.naver.com/search.naver?where=nexearch&amp;sm=tab_etc&amp;mra=bjky&amp;pkid=1&amp;os=37448432&amp;qvt=0&amp;query=%EC%9D%B4%EC%A7%84%EA%B7%9C" target="_blank" rel="noopener">네이버 인물</a>
-        <span>Seoul, Republic of Korea</span>
-      </div>
-    </div>
-    <img class="head-photo" src="data:image/jpeg;base64,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" alt="이진규 프로필 사진" onerror="this.style.display='none'">
+<main class="wrap">
+  <img class="photo" src="assets/profile.jpg" alt="이진규 프로필 사진">
+  <h1>이진규</h1>
+  <div class="en">Jin-Gyu Lee, M.D.</div>
+  <div class="role">
+    M.D.–Ph.D. Candidate<span class="dot">·</span>Physician-Scientist<br>
+    Frontree CMO<span class="dot">·</span>서울대학교 바이오엔지니어링
   </div>
-</header>
 
-<main>
+  <nav class="choices" aria-label="페이지 선택">
+    <a class="choice primary" href="card.html">
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#F0703C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M14 10h4.5M14 13.5h3"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ttl">명함</span>
+        <span class="sub" style="display:block">프론트리 · 서울대학교</span>
+      </span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="choice" href="cv.html">
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F4C3F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.8h8.5L19 7.3V20a1.2 1.2 0 0 1-1.2 1.2H6A1.2 1.2 0 0 1 4.8 20V4A1.2 1.2 0 0 1 6 2.8z"/><path d="M14.3 2.8v4.6H19"/><path d="M8 12h8M8 15.5h8M8 8.5h3"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ttl">이력서</span>
+        <span class="sub" style="display:block">Curriculum Vitae</span>
+      </span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </nav>
 
-  <section id="education">
-    <h2>Education &amp; Training</h2>
-
-    <div class="item">
-      <div class="top"><span class="title">서울대학교 공과대학 협동과정 바이오엔지니어링전공 (Ph.D. Candidate)</span><span class="date">2025.09 – present</span></div>
-      <div class="sub">Brain–Machine Interface Lab</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">경북대학교병원 전공의 수료</span><span class="date">2024</span></div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">경북대학교 의과대학 졸업 (M.D.)</span><span class="date">2023</span></div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">일리노이 주립대학교 (UIUC) 화학과 방문연구원</span><span class="date">2018</span></div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">서울대학교 화학생물공학부 석사 (M.S.)</span><span class="date">2018</span></div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">포항공과대학교 (POSTECH) 화학공학 학사 — 숨마쿰라우데</span><span class="date">2015</span></div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">전북과학고등학교 졸업</span><span class="date">2011</span></div>
-    </div>
-  </section>
-
-  <section id="interests">
-    <h2>Research Interests</h2>
-
-    <div class="ri">
-      <span class="tag">Flexible Electronics</span>
-      <p>LM (Liquid Metal) 기반 유연 센서 · physical AI 학습을 위한 데이터 수집 및 플랫폼 설계</p>
-    </div>
-    <div class="ri">
-      <span class="tag">AI Scoliosis Management</span>
-      <p>3D EOS · surface EMG · 머신러닝 기반 척추측만증 분류 및 관리 시스템</p>
-    </div>
-    <div class="ri">
-      <span class="tag">TCR Orthosis + Targeted Botox</span>
-      <p>소아 회전 변형(internal tibial torsion, in-toeing gait) 치료를 위한 Tibial Counter Rotator 보조기와 초음파 유도하 soleus·tibialis posterior 보툴리눔 톡신 A 주입 결합 프로토콜 — dynamic equinovarus 해소를 통한 교정 시간 단축 (n=348 후향적 코호트 분석)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">MSK Ultrasound</span>
-      <p>진단·중재적 초음파 임상 응용 (anterior approach via interosseous membrane 등)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">Clinical AI Agents</span>
-      <p>외래 진료 및 임상 의사결정 지원 LLM 기반 에이전트 개발</p>
-    </div>
-    <div class="ri">
-      <span class="tag">BIA Patch Technology</span>
-      <p>Soleus muscle 모니터링을 위한 유연 BIA 패치 (sarcopenia 진단 응용)</p>
-    </div>
-    <div class="ri">
-      <span class="tag">MSK AI Platform</span>
-      <p>통증 관리 의료기기 및 재활의학 융합 플랫폼 구축</p>
-    </div>
-  </section>
-
-  <section id="certs">
-    <h2>Clinical Certifications &amp; Skills</h2>
-
-  <ul class="clean">
-<li>대한정형통증학회 TPI (Trigger Point Injection) 교육 이수, 2024</li>
-<li>한국초음파학회 평생회원 및 상복부 초음파 인증의, 2025</li>
-</ul>
-
-<div class="skill-block" style="margin-top:18px;">
-<div class="lbl">학회 회원 (Professional Memberships)</div>
-<ul class="clean">
-<li>대한임상통증학회 준회원</li>
-<li>대한통증연구학회 준회원</li>
-<li>대한척추통증학회 준회원</li>
-<li>대한근골격계 초음파학회 준회원</li>
-<li>대한신경근골격 초음파학회 준회원</li>
-</ul>
-</div>
-
-    <div class="skill-block" style="margin-top:18px;">
-      <div class="lbl">C-arm guided nerve block</div>
-      <div class="chips">
-        <span class="chip">L-MBB</span><span class="chip">L-FJB</span><span class="chip">L-SNRB</span>
-        <span class="chip">C-MBB</span><span class="chip">C-FJB</span><span class="chip">TMBB</span>
-        <span class="chip">caudal EB</span><span class="chip">piriformis block</span><span class="chip">psoas block</span>
-      </div>
-    </div>
-    <div class="skill-block">
-      <div class="lbl">USG-guided injection</div>
-      <div class="chips">
-        <span class="chip">shoulder</span><span class="chip">elbow</span><span class="chip">wrist</span>
-        <span class="chip">finger</span><span class="chip">knee</span><span class="chip">ankle</span><span class="chip">plantar</span>
-      </div>
-    </div>
-    <div class="skill-block">
-      <div class="lbl">USG-guided Botox injection</div>
-      <div class="chips">
-        <span class="chip">soleus (posterior approach)</span>
-        <span class="chip">tibialis posterior (anterior approach via interosseous membrane)</span>
-      </div>
-    </div>
-    <div class="skill-block">
-      <div class="lbl">Prolotherapy</div>
-      <div class="chips">
-        <span class="chip">elbow</span><span class="chip">ankle</span><span class="chip">wrist</span>
-        <span class="chip">knee</span><span class="chip">scapula</span><span class="chip">leg</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="experience">
-    <h2>Work Experience</h2>
-
-    <div class="item">
-      <div class="top"><span class="title">Frontree — CMO (Chief Medical Officer)</span><span class="date">2026.07 – present</span></div>
-      <div class="sub">스타트업 · On-device AI 기반 멀티센서 분석 플랫폼 의료기기</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">Ph.D. Candidate — 서울대학교 협동과정 바이오엔지니어링전공</span><span class="date">2025.09 – present</span></div>
-      <div class="sub">Brain–Machine Interface Lab</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">위풍당당재활의학과의원 — 외래진료</span><span class="date">2025.05 – 2025.08</span></div>
-      <div class="sub">Primary care physician</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">영남속연합내과의원 — 외래진료</span><span class="date">2024.05 – 2025.05</span></div>
-      <div class="sub">Primary care physician</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">로컬 피부과의원 근무</span><span class="date">2024.03 – 2024.05</span></div>
-      <div class="sub">Primary care physician</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">경북대병원 수련의 (인턴)</span><span class="date">2023.03 – 2024.02</span></div>
-      <div class="sub">Residency training</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">경북대병원 재활의학과 임상 선택실습</span><span class="date">2022.07 – 2022.08</span></div>
-      <div class="sub">Sub-internship program</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">분당서울대학교병원 재활의학과 임상 선택실습 및 방문연구</span><span class="date">2022.01</span></div>
-      <div class="sub">Clerkship program</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">예수병원 재활의학과 임상 선택실습</span><span class="date">2021.01 – 2021.02</span></div>
-      <div class="sub">Sub-internship program</div>
-    </div>
-  </section>
-
-  <section id="publications">
-    <h2>Publications</h2>
-
-    <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://doi.org/10.22802/jksbtp.2021.27.3.237" target="_blank" rel="noopener">Calculation of Socioeconomic Cost of Depression in Korea in 2019.</a>” <span class="pub-venue">Korean Journal of Biological Psychiatry</span> 27(3): 237–244 (2021).</div>
-    </div>
-    <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://linkinghub.elsevier.com/retrieve/pii/S2468-1229(23)00072-5" target="_blank" rel="noopener">Radius palmar plate removal without carpal tunnel release: Correlation between plate position and median nerve symptoms.</a>” <span class="pub-venue">Hand Surgery and Rehabilitation</span> 42(3): 230–235 (2023). [Elsevier Masson]</div>
-    </div>
-    <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “<a href="https://doi.org/10.1016/j.heliyon.2023.e19510" target="_blank" rel="noopener">Analysis of the mechanism and clinical classification of thoracolumbar scoliosis using three-dimensional EOS and surface electromyography.</a>” <span class="pub-venue">Heliyon (Cell Press)</span> 9(9): e19510 (2023).</div>
-    </div>
-    <div class="item">
-      <div class="desc pub-authors"><b>Lee J-G, et al.</b> “Efficacy of Tibial Counter Rotator (TCR) Orthosis and Botulinum Toxin A in Children with Rotational Deformities: A Retrospective Cohort Study.” <span class="pub-venue">Under review / In preparation</span>, 2026.</div>
-    </div>
-  </section>
-
-  <section id="patents">
-    <h2>Patents</h2>
-    <ul class="clean">
-      <li>국내특허 제 10-2016-1843265 호, 「약물 전달 장치」 (2016)</li>
-      <li>국내특허 제 10-2016-0082919 호, 「바이오 센싱 장치」 (2016)</li>
-      <li>PCT Patent No. WO2018004182A1, “Biosensing device and drug delivery device” (2016)</li>
-    </ul>
-  </section>
-
-  <section id="grants">
-    <h2>Grants &amp; Funding</h2>
-
-    <div class="item">
-      <div class="top"><span class="title">융합형 의사과학자 양성사업 (전일제 과정)</span><span class="date">2025 – present</span></div>
-      <div class="sub">보건복지부 · 한국보건산업진흥원 (진행 중)</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">예비창업패키지 지원사업</span><span class="date">2022</span></div>
-      <div class="sub">중소벤처기업부 · 스타트업 「리해피」 대표</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">K-창업클럽 지원사업</span><span class="date">2022</span></div>
-      <div class="sub">중소벤처기업부</div>
-    </div>
-    <div class="item">
-      <div class="top"><span class="title">청년공동체 활성화 사업 (선정·수행 완료)</span><span class="date">2022</span></div>
-      <div class="sub">대구광역시 · 청년공동체「인(人)Star」 대표 — 취약계층 교육기부 및 청년 네트워킹 사업 기획·운영</div>
-    </div>
-  </section>
-
-  <section id="awards">
-    <h2>Honours &amp; Awards</h2>
-    <ul class="clean">
-      <li>제7회 국립재활원 보조기기 해커톤 최우수상 (보건복지부장관상), 국립재활원, 2026.11</li>
-      <li>KYPSN (한국청년의사과학자네트워크) 창립 대표 — 비영리 임의단체, 2026 ~ present</li>
-      <li>「人 Star (인스타)」 비영리 임의단체 대표, 2021.01</li>
-      <li>KNU 영예장학생, 경북대학교, 2021.05</li>
-      <li>한국 지도자육성 장학재단 장학생, 2021–2022</li>
-      <li>대한민국 인재상, 교육부, 2020</li>
-      <li>경북대학교 의과대학 성적우수장학금, 2019–2020</li>
-      <li>서울대학교병원 학부 연구 인턴 프로그램 최우수 연구상, 2018</li>
-      <li>관정 이종환 장학재단 11기 장학생, 2016–2018</li>
-      <li>포항공과대학교 최우수 성적 졸업생 (숨마쿰라우데), 2015</li>
-      <li>포항공과대학교 학부 연구 프로그램 최우수 연구상, 2014</li>
-      <li>포항공과대학교 화학공학과 학부 최우수 연구상, 2014</li>
-      <li>포항공과대학교 이공계장학금, 2011–2015</li>
-    </ul>
-  </section>
-
-  <section id="talks">
-    <h2>Invited Talks &amp; Mentoring</h2>
-    <ul class="clean">
-      <li>쉐이커스 청소년 사명캠프 — 공학·의학 계열 진로 선택강의, 2026.07 · 08</li>
-      <li>제94회 CMF 학생수련회 — 선택강의 (광주 호남신학대학교), 2026.07</li>
-      <li>전북대학교 의과대학 — 공학과 의학 융합 진로 멘토링, 2026.03</li>
-      <li>대구 영진고등학교 — 진로 멘토링, 2025.12</li>
-      <li>보성 용정중학교 — 진로 멘토링, 2025.08</li>
-      <li>울산 현대청운고등학교 — 진로 강연, 2025.05</li>
-      <li>남천교회 수련회 — 간증, 2025.02</li>
-      <li>대한민국 인재상「월말인재상」 강연, 2024.11</li>
-      <li>부산 해운대고등학교 — 진로 멘토링, 2024.10</li>
-      <li>현대청운고등학교 — 진로 멘토링, 2024.06</li>
-      <li>대구 경운행복한홈스쿨링 — 직업 멘토링, 2024.05</li>
-      <li>직업 멘토링 (웨즈덤 인생학교), 2023.06 · 2024.06</li>
-      <li>운화교회 청년부·수련회 — 간증, 2022.05</li>
-      <li>웨즈덤 인생학교 — 온라인 멘토링「고난 속에서 발견하는 기쁨」, 2022.02</li>
-      <li>부산 동항교회 중고등부 — 간증, 2019.09</li>
-      <li>하이데어(Hi There) 진로 멘토링 (진행 중), 2024 ~ 2026</li>
-    </ul>
-  </section>
-
-  <section id="media">
-    <h2>Media &amp; Interviews</h2>
-    <div class="media-grid">
-
-      <a class="media-card" href="https://www.youtube.com/watch?v=_XOvhQ1yYFs" target="_blank" rel="noopener">
-        <div class="media-thumb">
-          <img src="https://i.ytimg.com/vi/_XOvhQ1yYFs/hqdefault.jpg" alt="[실터뷰] 죽음의 문턱에서 발견한 꿈 — 이진규 인터뷰 썸네일" loading="lazy">
-          <span class="play" aria-hidden="true"></span>
-          <span class="dur">17:01</span>
-        </div>
-        <div class="media-body">
-          <div class="m-title">[실터뷰] 죽음의 문턱에서 발견한 꿈</div>
-          <div class="m-meta">실소 (SilSo) · YouTube 인터뷰 · 2026.07</div>
-          <div class="m-desc">외상성 뇌출혈 이후의 회복과 「보너스 라이프」, 그리고 실패를 낙인이 아닌 자산으로 전환해 온 의사과학자로서의 여정에 관한 장편 인터뷰.</div>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
+  <div class="links">
+    <a href="mailto:comjingue@gmail.com">Email</a>
+    <a href="https://frontree.io" target="_blank" rel="noopener">frontree.io</a>
+    <a href="https://www.instagram.com/jingyulee___/" target="_blank" rel="noopener">Instagram</a>
+  </div>
 </main>
 
-<footer>
-  © 2026 이진규 (Jin-Gyu Lee) · Curriculum Vitae · Last updated 2026.10
-</footer>
+<footer>© 2026 Jin-Gyu Lee</footer>
 
 </body>
 </html>

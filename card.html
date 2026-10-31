@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이진규 — 명함 · Business Card</title>
+<meta name="description" content="이진규 (Jin-Gyu Lee) 디지털 명함 — 프론트리 CMO · 서울대학교 바이오엔지니어링 박사과정">
+<meta property="og:title" content="이진규 — 명함">
+<meta property="og:description" content="프론트리 CMO · 서울대학교 바이오엔지니어링 박사과정">
+<meta property="og:image" content="assets/profile.jpg">
+<style>
+  :root{
+    --green:#0F4C3F;
+    --orange:#F0703C;
+    --cream:#F6F1E7;
+    --card-cream:#FBF7EE;
+    --snu:#0F0F70;
+    --snu-soft:#C9CCE6;
+    --ink:#1d2a26;
+    --muted:#5f6d68;
+    --line:#e2dccf;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;min-height:100vh;
+    font-family:"Pretendard","Inter","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink);background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  a{color:inherit;text-decoration:none;}
+  .top{
+    width:100%;max-width:560px;padding:18px 22px 0;
+    display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);
+  }
+  .top a:hover{color:var(--green);}
+
+  /* Tabs */
+  .tabs{
+    width:100%;max-width:560px;padding:28px 22px 0;
+  }
+  .tablist{
+    display:grid;grid-template-columns:1fr 1fr;gap:4px;
+    background:#ebe4d6;border-radius:12px;padding:4px;
+  }
+  .tab{
+    border:0;background:transparent;font-family:inherit;cursor:pointer;
+    padding:11px 8px;border-radius:9px;
+    font-size:.95rem;font-weight:600;color:var(--muted);
+    transition:background .15s ease,color .15s ease,box-shadow .15s ease;
+  }
+  .tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.06);}
+  .tab .d{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px;}
+
+  .panel{width:100%;max-width:560px;padding:26px 22px 0;}
+  .panel[hidden]{display:none;}
+
+  /* Card: 90 x 50 mm */
+  .card{
+    position:relative;width:100%;aspect-ratio:90/50;
+    perspective:1400px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .card-inner{
+    position:absolute;inset:0;
+    transform-style:preserve-3d;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;border-radius:14px;overflow:hidden;
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    box-shadow:0 18px 40px rgba(20,30,40,.16),0 2px 6px rgba(20,30,40,.08);
+    padding:7.5%;
+    display:flex;flex-direction:column;justify-content:space-between;
+    container-type:inline-size;
+  }
+  .face.back{transform:rotateY(180deg);}
+
+  .brand{display:flex;align-items:center;gap:1.6cqw;font-weight:700;letter-spacing:-.01em;font-size:4.2cqw;}
+  .brand .mark{width:2.6cqw;height:2.6cqw;border-radius:50%;}
+  .name-row{display:flex;align-items:baseline;gap:2.4cqw;flex-wrap:wrap;}
+  .name{font-size:8.4cqw;font-weight:700;letter-spacing:-.02em;line-height:1.1;}
+  .title{font-size:3.4cqw;font-weight:600;}
+  .aff{margin-top:1.4cqw;font-size:2.9cqw;line-height:1.5;opacity:.8;}
+  .info{font-size:2.85cqw;line-height:1.65;}
+  .info .k{display:inline-block;width:9cqw;font-weight:600;}
+
+  /* Frontree theme */
+  .ft .front{background:var(--card-cream);color:var(--ink);}
+  .ft .back{background:var(--green);color:#fff;}
+  .ft .brand .mark{background:var(--orange);}
+  .ft .front .brand{color:var(--green);}
+  .ft .title,.ft .info .k{color:var(--orange);}
+  .ft .back .info{color:rgba(255,255,255,.9);}
+
+  /* SNU theme */
+  .snu .front{background:#fff;color:#14163a;}
+  .snu .back{background:var(--snu);color:#fff;}
+  .snu .brand{font-size:3.6cqw;}
+  .snu .brand .mark{background:var(--snu);border-radius:.6cqw;}
+  .snu .back .brand .mark{background:#fff;}
+  .snu .front .brand{color:var(--snu);}
+  .snu .front .title,.snu .front .info .k{color:var(--snu);}
+  .snu .back .title,.snu .back .info .k{color:var(--snu-soft);}
+  .snu .back .info{color:rgba(255,255,255,.9);}
+  .snu .front .rule{position:absolute;left:0;top:0;bottom:0;width:1.6cqw;background:var(--snu);}
+
+  .hint{margin-top:14px;text-align:center;font-size:.84rem;color:var(--muted);}
+  .hint b{font-weight:600;color:var(--ink);}
+
+  .actions{
+    margin-top:24px;
+    display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  }
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px 12px;border-radius:12px;
+    background:#fff;border:1px solid var(--line);
+    font-size:.95rem;font-weight:600;color:var(--ink);
+    font-family:inherit;cursor:pointer;
+    transition:border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  .btn:hover{box-shadow:0 6px 16px rgba(20,30,40,.1);}
+  .btn.primary{grid-column:1/-1;color:#fff;}
+  .ft .btn.primary{background:var(--green);border-color:var(--green);}
+  .snu .btn.primary{background:var(--snu);border-color:var(--snu);}
+  .btn.disabled{opacity:.45;pointer-events:none;}
+  .btn svg{width:18px;height:18px;flex-shrink:0;}
+
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+    background:var(--ink);color:#fff;font-size:.86rem;
+    padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+  .more{margin:34px 0 0;font-size:.9rem;}
+  .more a{color:var(--green);border-bottom:1px solid var(--green);}
+  footer{padding:30px 24px;font-size:.78rem;color:#8b968f;}
+</style>
+</head>
+<body>
+
+<div class="top"><a href="./">← 홈</a><a href="cv.html">이력서 보기</a></div>
+
+<div class="tabs">
+  <div class="tablist" role="tablist" aria-label="명함 선택">
+    <button class="tab" role="tab" id="tab-frontree" aria-controls="frontree" aria-selected="true"><span class="d" style="background:#F0703C"></span>프론트리</button>
+    <button class="tab" role="tab" id="tab-snu" aria-controls="snu" aria-selected="false"><span class="d" style="background:#0F0F70"></span>서울대학교</button>
+  </div>
+</div>
+
+<!-- ───────── Frontree ───────── -->
+<section class="panel ft" id="frontree" role="tabpanel" aria-labelledby="tab-frontree">
+  <div class="card" role="button" tabindex="0" aria-label="프론트리 명함 뒤집기 (국문/영문)">
+    <div class="card-inner">
+      <div class="face front">
+        <div class="brand"><span class="mark"></span>frontree</div>
+        <div>
+          <div class="name-row"><span class="name">이진규</span><span class="title">CMO · 의사</span></div>
+          <div class="aff">최고의료책임자</div>
+        </div>
+        <div class="info">
+          <div><span class="k">E</span>comjingue@frontree.io</div>
+          <div><span class="k">W</span>frontree.io</div>
+          <div><span class="k">A</span>서울 강남구 학동로 165 마일스디오빌 208-3-55호</div>
+        </div>
+      </div>
+      <div class="face back">
+        <div class="brand"><span class="mark"></span>frontree</div>
+        <div>
+          <div class="name-row"><span class="name">Jin-Gyu Lee, M.D.</span></div>
+          <div class="title" style="margin-top:1cqw">Chief Medical Officer</div>
+        </div>
+        <div class="info">
+          <div><span class="k">E</span>comjingue@frontree.io</div>
+          <div><span class="k">W</span>frontree.io</div>
+          <div><span class="k">A</span>165 Hakdong-ro, Gangnam-gu, Seoul 06044</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hint">명함을 <b>탭</b>하면 국문 ↔ 영문이 바뀝니다</div>
+
+  <div class="actions">
+    <a class="btn primary" data-remember="frontree" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M14 10h4.5M14 13.5h3"/></svg>
+      리멤버로 명함 받기
+    </a>
+    <button class="btn" data-vcf="frontree">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c.9-3.4 3.4-5.2 6.5-5.2 1.4 0 2.7.4 3.7 1.1"/><path d="M18.5 14v6M15.5 17h6"/></svg>
+      연락처 저장
+    </button>
+    <button class="btn" data-share="frontree">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1"/></svg>
+      명함 공유
+    </button>
+  </div>
+</section>
+
+<!-- ───────── SNU ───────── -->
+<section class="panel snu" id="snu" role="tabpanel" aria-labelledby="tab-snu" hidden>
+  <div class="card" role="button" tabindex="0" aria-label="서울대학교 명함 뒤집기 (국문/영문)">
+    <div class="card-inner">
+      <div class="face front">
+        <span class="rule"></span>
+        <div class="brand"><span class="mark"></span>서울대학교 공과대학</div>
+        <div>
+          <div class="name-row"><span class="name">이진규</span><span class="title">박사과정 · 의사</span></div>
+          <div class="aff">협동과정 바이오엔지니어링전공<br>Brain–Machine Interface Lab</div>
+        </div>
+        <div class="info">
+          <div><span class="k">E</span>comjingue@gmail.com</div>
+          <div><span class="k">A</span>서울특별시 관악구 관악로 1 서울대학교</div>
+        </div>
+      </div>
+      <div class="face back">
+        <div class="brand"><span class="mark"></span>Seoul National University</div>
+        <div>
+          <div class="name-row"><span class="name">Jin-Gyu Lee, M.D.</span></div>
+          <div class="title" style="margin-top:1cqw">M.D.–Ph.D. Candidate</div>
+          <div class="aff">Interdisciplinary Program in Bioengineering<br>Brain–Machine Interface Lab</div>
+        </div>
+        <div class="info">
+          <div><span class="k">E</span>comjingue@gmail.com</div>
+          <div><span class="k">A</span>1 Gwanak-ro, Gwanak-gu, Seoul 08826</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hint">명함을 <b>탭</b>하면 국문 ↔ 영문이 바뀝니다</div>
+
+  <div class="actions">
+    <a class="btn primary" data-remember="snu" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M14 10h4.5M14 13.5h3"/></svg>
+      리멤버로 명함 받기
+    </a>
+    <button class="btn" data-vcf="snu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 20c.9-3.4 3.4-5.2 6.5-5.2 1.4 0 2.7.4 3.7 1.1"/><path d="M18.5 14v6M15.5 17h6"/></svg>
+      연락처 저장
+    </button>
+    <button class="btn" data-share="snu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1"/></svg>
+      명함 공유
+    </button>
+  </div>
+</section>
+
+<p class="more"><a href="cv.html">전체 이력서 보기 →</a></p>
+
+<footer>© 2026 Jin-Gyu Lee</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ── 리멤버 프로필 링크: 여기 두 줄만 바꾸면 됩니다 ── */
+  const REMEMBER = {
+    frontree: '',   // 예: 'https://rememberapp.co.kr/...'  (프론트리 명함)
+    snu: ''         // 예: 'https://rememberapp.co.kr/...'  (서울대 명함)
+  };
+
+  const VCARD = {
+    frontree: {
+      file: 'JinGyuLee_Frontree.vcf',
+      lines: [
+        'ORG:프론트리 (Frontree)',
+        'TITLE:CMO (Chief Medical Officer)',
+        'EMAIL;TYPE=WORK:comjingue@frontree.io',
+        'URL:https://frontree.io',
+        'ADR;TYPE=WORK:;;학동로 165 마일스디오빌 208-3-55호;강남구;서울;06044;대한민국'
+      ]
+    },
+    snu: {
+      file: 'JinGyuLee_SNU.vcf',
+      lines: [
+        'ORG:서울대학교;협동과정 바이오엔지니어링전공 Brain–Machine Interface Lab',
+        'TITLE:박사과정 (M.D.–Ph.D. Candidate)',
+        'EMAIL;TYPE=WORK:comjingue@gmail.com',
+        'ADR;TYPE=WORK:;;관악로 1 서울대학교;관악구;서울;08826;대한민국'
+      ]
+    }
+  };
+
+  const toast = msg => {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1800);
+  };
+
+  // Tabs (URL hash: #frontree / #snu)
+  const tabs = [...document.querySelectorAll('.tab')];
+  const select = id => {
+    tabs.forEach(t => {
+      const on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', on);
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    history.replaceState(null, '', '#' + id);
+  };
+  tabs.forEach(t => t.addEventListener('click', () => select(t.getAttribute('aria-controls'))));
+  if (location.hash === '#snu') select('snu');
+
+  // Flip
+  document.querySelectorAll('.card').forEach(card => {
+    const flip = () => card.classList.toggle('flipped');
+    card.addEventListener('click', flip);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); }
+    });
+  });
+
+  // Remember links
+  document.querySelectorAll('[data-remember]').forEach(a => {
+    const url = REMEMBER[a.dataset.remember];
+    if (url) a.href = url;
+    else { a.classList.add('disabled'); a.setAttribute('aria-disabled', 'true'); }
+  });
+
+  // vCard
+  document.querySelectorAll('[data-vcf]').forEach(b => b.addEventListener('click', () => {
+    const v = VCARD[b.dataset.vcf];
+    const vcf = ['BEGIN:VCARD', 'VERSION:3.0', 'N:이;진규;;;', 'FN:이진규 (Jin-Gyu Lee)',
+      ...v.lines, 'URL:https://comjingue.github.io', 'END:VCARD'].join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([vcf], { type: 'text/vcard;charset=utf-8' }));
+    a.download = v.file;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }));
+
+  // Share
+  document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async () => {
+    const key = b.dataset.share;
+    const url = location.origin + location.pathname + '#' + key;
+    const label = key === 'snu' ? '서울대학교' : '프론트리';
+    if (navigator.share) {
+      try { await navigator.share({ title: '이진규 — ' + label + ' 명함', url }); } catch (e) {}
+      return;
+    }
+    try { await navigator.clipboard.writeText(url); toast('링크를 복사했습니다'); }
+    catch (e) { toast(url); }
+  }));
+</script>
+</body>
+</html>
