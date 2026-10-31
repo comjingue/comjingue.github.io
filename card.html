@@ -125,7 +125,7 @@
   .btn.primary{grid-column:1/-1;color:#fff;}
   .ft .btn.primary{background:var(--green);border-color:var(--green);}
   .snu .btn.primary{background:var(--snu);border-color:var(--snu);}
-  .btn.disabled{opacity:.45;pointer-events:none;}
+  .btn[hidden]{display:none;}
   .btn svg{width:18px;height:18px;flex-shrink:0;}
 
   .toast{
@@ -162,6 +162,7 @@
           <div class="aff">최고의료책임자</div>
         </div>
         <div class="info">
+          <div><span class="k">M</span>010-9599-0908</div>
           <div><span class="k">E</span>comjingue@frontree.io</div>
           <div><span class="k">W</span>frontree.io</div>
           <div><span class="k">A</span>서울 강남구 학동로 165 마일스디오빌 208-3-55호</div>
@@ -174,6 +175,7 @@
           <div class="title" style="margin-top:1cqw">Chief Medical Officer</div>
         </div>
         <div class="info">
+          <div><span class="k">M</span>+82 10-9599-0908</div>
           <div><span class="k">E</span>comjingue@frontree.io</div>
           <div><span class="k">W</span>frontree.io</div>
           <div><span class="k">A</span>165 Hakdong-ro, Gangnam-gu, Seoul 06044</div>
@@ -265,6 +267,7 @@
       lines: [
         'ORG:프론트리 (Frontree)',
         'TITLE:CMO (Chief Medical Officer)',
+        'TEL;TYPE=CELL:+82-10-9599-0908',
         'EMAIL;TYPE=WORK:comjingue@frontree.io',
         'URL:https://frontree.io',
         'ADR;TYPE=WORK:;;학동로 165 마일스디오빌 208-3-55호;강남구;서울;06044;대한민국'
@@ -275,6 +278,7 @@
       lines: [
         'ORG:서울대학교;협동과정 바이오엔지니어링전공 Brain–Machine Interface Lab',
         'TITLE:박사과정 (M.D.–Ph.D. Candidate)',
+        'TEL;TYPE=CELL:+82-10-9599-0908',
         'EMAIL;TYPE=WORK:comjingue@gmail.com',
         'ADR;TYPE=WORK:;;관악로 1 서울대학교;관악구;서울;08826;대한민국'
       ]
@@ -313,7 +317,7 @@
   document.querySelectorAll('[data-remember]').forEach(a => {
     const url = REMEMBER[a.dataset.remember];
     if (url) a.href = url;
-    else { a.classList.add('disabled'); a.setAttribute('aria-disabled', 'true'); }
+    else a.hidden = true;  // 링크가 없으면 버튼 숨김
   });
 
   // vCard
