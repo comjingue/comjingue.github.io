@@ -249,6 +249,94 @@ async function seShots(){
   await ctx.close();
 }
 
+
+/* 길드 마스터에게 묻기: 가짜 엔드포인트(https://ask.test/ask)로 스트리밍·429·401 흉내 */
+async function askTest(){
+  console.log('\n[묻기(iPhone 13)]');
+  const ctx=await browser.newContext({...devices['iPhone 13'],serviceWorkers:'block'});
+  const page=await ctx.newPage(); const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('console',m=>{if(m.type()==='error'&&!/status of (429|401)/.test(m.text()))errors.push('console: '+m.text());});
+  const shot=n=>page.screenshot({path:path.join(SHOTS,`ask-${n}.png`)});
+  let mode='ok'; const bodies=[];
+  const CORS={'access-control-allow-origin':'*','access-control-allow-headers':'content-type','access-control-allow-methods':'POST, OPTIONS','access-control-expose-headers':'X-Remaining'};
+  await page.route('https://ask.test/**',async route=>{
+    const r=route.request();
+    if(r.method()==='OPTIONS')return route.fulfill({status:204,headers:CORS});
+    bodies.push(JSON.parse(r.postData()));
+    if(mode==='ok')return route.fulfill({status:200,headers:{...CORS,'content-type':'text/plain; charset=utf-8','X-Remaining':String(10-bodies.length)},
+      body:'**터미널**을 껐다 켠 뒤 아래를 실행해 보세요.\n```bash\nclaude --version\n```\n<img src=x onerror=alert(1)> 버전이 나오면 성공!'});
+    if(mode==='429')return route.fulfill({status:429,headers:{...CORS,'content-type':'application/json'},body:JSON.stringify({error:'limit',message:'오늘 질문을 모두 썼어요. 내일 다시 물어봐 주세요.'})});
+    if(mode==='401')return route.fulfill({status:401,headers:{...CORS,'content-type':'application/json'},body:JSON.stringify({error:'bad_code',message:'참가 코드가 맞지 않아요.'})});
+  });
+  await page.goto(BASE);
+  await page.evaluate(()=>localStorage.setItem('levelup-guild-v1',JSON.stringify({v:2,nick:'묻기',cls:'ceo',os:'mac',done:{},t0:Date.now()})));
+  await page.reload();await page.click('#continueBtn');await page.waitForSelector('#app:not(.hidden)');
+  await page.evaluate(()=>openQuest('a-install'));await page.waitForSelector('#qSheet.on');
+  await page.click('#qBody .chk');
+  // 1) 엔드포인트 비어 있음
+  await page.click('#askBtn');await page.waitForSelector('#askSheet.on');
+  ok(/AI 상담은 곧 열려요/.test(await page.$eval('#askBody',e=>e.textContent)),'엔드포인트 없음 → 안내');
+  ok(!!(await page.$('#askSos')),'엔드포인트 없음 → SOS 버튼');
+  await page.goBack();await sleep(300);
+  ok(!(await page.$('#askSheet.on'))&&!!(await page.$('#qSheet.on')),'뒤로가기 → 묻기 시트만 닫힘');
+  // 2) 코드 입력
+  await page.evaluate(()=>{window.GUILD_CONFIG.askEndpoint='https://ask.test';});
+  await page.click('#askBtn');await page.waitForSelector('#askCode');
+  ok(/Anthropic의 Claude API/.test(await page.$eval('#askBody',e=>e.textContent)),'첫 안내문(전송 고지)');
+  await sleep(300);await shot('code');
+  await page.fill('#askCode','GUILD-2026');await page.click('#askCodeOk');
+  await page.waitForSelector('#askText:visible');
+  // 3) 텍스트 질문 → 스트리밍 답
+  await page.fill('#askText','claude 명령이 없대요');await page.click('#askSend');
+  await page.waitForFunction(()=>/버전이 나오면 성공/.test(document.querySelector('#askLog').textContent)&&!document.querySelector('#askSend').disabled);
+  ok(!!(await page.$('#askLog .msg.gm .cmd code')),'답변 코드블록 → .cmd 렌더');
+  ok(!(await page.$('#askLog img[src=x]')),'답변 원문 HTML 이스케이프');
+  ok(!!(await page.$('#askLog .gtx b')),'**굵게** 처리');
+  ok(/오늘 남은 질문 9개/.test(await page.$eval('#askLeft',e=>e.textContent)),'남은 질문 수 표시');
+  const b0=bodies[0];
+  ok(b0.code==='GUILD-2026'&&b0.context.questId==='a-install'&&b0.context.os==='mac'&&b0.context.checked.join()==='0'&&b0.context.lastStep===0&&b0.context.steps.length===2&&/claude --version/.test(b0.context.steps[1]),'요청 context 계약');
+  ok(b0.messages.length===1&&b0.messages[0].role==='user','요청 messages 계약');
+  // 4) 사진 첨부(큰 PNG → 1280 이하 JPEG)
+  const png=Buffer.from(await page.evaluate(()=>{const c=document.createElement('canvas');c.width=2400;c.height=1600;const g=c.getContext('2d');g.fillStyle='#345';g.fillRect(0,0,2400,1600);g.fillStyle='#fc0';g.fillRect(100,100,800,400);return c.toDataURL('image/png').split(',')[1];}),'base64');
+  await page.setInputFiles('#askFile',{name:'screen.png',mimeType:'image/png',buffer:png});
+  await page.waitForSelector('#askPreview img');
+  await page.fill('#askText','이 화면이에요');await page.click('#askSend');
+  await page.waitForFunction(()=>document.querySelectorAll('#askLog .msg.gm').length===2&&!document.querySelector('#askSend').disabled);
+  const b1=bodies[1], last=b1.messages[b1.messages.length-1];
+  ok(!!(last.image&&last.image.data)&&last.image.media_type==='image/jpeg'&&!/^data:/.test(last.image.data),'요청에 image.data(base64, 헤더 없음)');
+  const dim=await page.evaluate(d=>new Promise(r=>{const i=new Image();i.onload=()=>r([i.width,i.height]);i.src='data:image/jpeg;base64,'+d;}),last.image.data);
+  ok(Math.max(...dim)<=1280,'사진 긴 변 1280 이하: '+dim.join('×'));
+  ok(b1.messages.length===3&&b1.messages[1].role==='assistant','이전 대화 포함');
+  ok(!!(await page.$('#askLog .msg.me img')),'보낸 사진 썸네일');
+  await sleep(300);await shot('chat');
+  // 5) 429
+  mode='429';await page.fill('#askText','하나 더');await page.click('#askSend');
+  await page.waitForSelector('#askErrSos');
+  ok(/오늘 질문을 모두 썼어요/.test(await page.$eval('#askLog',e=>e.textContent)),'429 → 서버 안내 그대로');
+  ok(await page.$eval('#askText',e=>e.value)==='하나 더','실패한 질문은 입력창으로 복귀');
+  // 6) 401 → 코드 다시 입력
+  mode='401';await page.click('#askSend');
+  await page.waitForSelector('#askCode');
+  ok(/참가 코드가 맞지 않아요/.test(await page.$eval('#askBody',e=>e.textContent)),'401 → 코드 재입력 + 안내');
+  ok(await page.evaluate(()=>localStorage.getItem('levelup-guild-askcode'))===null,'잘못된 코드 삭제');
+  await page.fill('#askCode','GUILD-2026');await page.click('#askCodeOk');
+  // 이미지 최근 2장만, 최근 10개 메시지만
+  const pl=await page.evaluate(()=>{const st=Ask._st,keep=st.msgs;st.msgs=[];for(let i=0;i<14;i++)st.msgs.push(i%2?{role:'assistant',text:'a'+i}:{role:'user',text:'u'+i,image:'IMG'+i});const p=Ask._payload();st.msgs=keep;return p.messages;});
+  ok(pl.length<=10&&pl[0].role==='user','최근 10개 이하, user로 시작: '+pl.length);
+  ok(pl.filter(m=>m.image).length===2&&pl.filter(m=>/\[이전에 보낸 사진\]/.test(m.text)).length===pl.filter(m=>m.role==='user').length-2,'이미지는 최근 2장만, 이전은 [이전에 보낸 사진]');
+  // 7) 세이브 코드에 참가 코드 없음
+  const sc=await page.evaluate(()=>decodeURIComponent(escape(atob(saveCode()))));
+  ok(!/GUILD-2026|askcode/.test(sc),'세이브 코드에 참가 코드 없음');
+  // 8) 답을 받은 퀘스트 클리어 → 구조 요청 성공
+  await page.keyboard.press('Escape');await sleep(250);
+  for(const c of await page.$$('#qBody .chk[aria-checked=false]'))await c.click();
+  await page.click('#doneQ');await page.waitForSelector('#resultCard.on');
+  ok(/구조 요청 성공/.test(await page.$eval('#resultCard',e=>e.textContent)),'묻기 후 클리어 → 구조 요청 성공 배지');
+  ok(!errors.length,'콘솔/페이지 에러 0 '+JSON.stringify(errors));
+  await ctx.close();
+}
+
 let browser, BASE, server;
 (async()=>{
   const port=await freePort();
@@ -263,6 +351,7 @@ let browser, BASE, server;
     await classPick('desktop1280',{viewport:{width:1280,height:800}});
     await classPick('iphone13',{...devices['iPhone 13']});
     await seShots();
+    await askTest();
   }catch(e){fails++;console.error(e);}
   finally{if(browser)await browser.close();server.kill();}
   console.log(fails?`\nFAIL (${fails})`:'\nPASS');
