@@ -114,9 +114,11 @@ function pumpToast(){
   if(toastBusy||fxBusy||!toastQ.length)return;
   const t=toastQ.shift(), e=$('#toast'); toastBusy=true;
   e.textContent=t.m; e.classList.toggle('tapme',!!t.onTap); e.onclick=t.onTap||null;
-  e.classList.add('on');
-  setTimeout(()=>{e.classList.remove('on');setTimeout(()=>{toastBusy=false;pumpToast();},280);},t.sticky?8000:2400);
+  e.classList.add('on'); const gen=++toastGen;
+  setTimeout(()=>{if(gen!==toastGen)return;e.classList.remove('on');setTimeout(()=>{if(gen!==toastGen)return;toastBusy=false;pumpToast();},280);},t.sticky?8000:2400);
 }
+let toastGen=0;
+function clearToast(){toastQ.length=0;toastGen++;toastBusy=false;const e=$('#toast');e.classList.remove('on');e.onclick=null;}
 
 /* ---------- 레이어(시트/카드) + 뒤로가기 ---------- */
 const layers=[]; let skipPop=0; const onCloseHooks=new Map();
@@ -185,6 +187,7 @@ function clsCard(k){
   </div>`;
 }
 function renderWizard(){
+  clearToast();
   $('#wzBack').innerHTML=icon('back',20);
   $$('#wzDots i').forEach((d,i)=>d.classList.toggle('on',i<=wzStep));
   const b=$('#wzBody'); const next=$('#wzNext');
@@ -195,15 +198,24 @@ function renderWizard(){
     next.textContent='다음 ▶';
   }else if(wzStep===1){
     const keys=CLS_KEYS(); if(!draft.cls)draft.cls=keys[0];
-    b.innerHTML=`<div class="wz-step"><h2>2. 어떤 길을 걸을까?</h2><p class="muted small">옆으로 넘겨 보세요. 마일스톤 퀘스트를 깨면 전직하면서 칭호와 스킬이 바뀝니다. 직업은 나중에 메뉴에서 바꿀 수 있어요.</p>
-      <div class="carousel" id="car">${keys.map(clsCard).join('')}</div>
-      <div class="cdots" id="cdots">${keys.map(k=>`<i class="${draft.cls===k?'on':''}"></i>`).join('')}</div></div>`;
+    b.innerHTML=`<div class="wz-step"><h2>2. 어떤 길을 걸을까?</h2><p class="muted small">옆으로 넘겨 보세요. 마일스톤 퀘스트를 깨면 전직합니다. 직업은 나중에 메뉴에서 바꿀 수 있어요.</p>
+      <div class="cdots" id="cdots">${keys.map(k=>`<i class="${draft.cls===k?'on':''}"></i>`).join('')}</div>
+      <div class="carousel" id="car">${keys.map(clsCard).join('')}</div></div>`;
     const car=$('#car');
-    const pick=()=>{const cards=[...car.children];const mid=car.scrollLeft+car.clientWidth/2;let best=0,bd=1e9;cards.forEach((c,i)=>{const d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<bd){bd=d;best=i;}});
-      draft.cls=keys[best];cards.forEach((c,i)=>c.classList.toggle('on',i===best));$$('#cdots i').forEach((d,i)=>d.classList.toggle('on',i===best));};
+    // 캐러셀 컨테이너 기준 좌표(offsetLeft 는 body 기준이라 가운데 여백만큼 어긋남)
+    const mark=k=>{const best=keys.indexOf(k);draft.cls=k;[...car.children].forEach((c,i)=>c.classList.toggle('on',i===best));$$('#cdots i').forEach((d,i)=>d.classList.toggle('on',i===best));};
+    let clickAt=0; // 카드 탭 후 부드러운 스크롤 동안만 자동 판정 보류. 사용자가 직접 넘기면 즉시 해제
+    ['pointerdown','touchstart','wheel'].forEach(ev=>car.addEventListener(ev,()=>{clickAt=0;},{passive:true}));
+    const pick=()=>{ if(Date.now()-clickAt<900)return;
+      const cr=car.getBoundingClientRect(), mid=cr.left+car.clientLeft+car.clientWidth/2; let best=0,bd=1e9;
+      [...car.children].forEach((c,i)=>{const r=c.getBoundingClientRect();const d=Math.abs(r.left+r.width/2-mid);if(d<bd){bd=d;best=i;}});
+      mark(keys[best]);};
     let st; car.addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(pick,80);},{passive:true});
-    car.querySelectorAll('.cls-card').forEach(c=>c.onclick=e=>{if(e.target.closest('summary,details'))return;c.scrollIntoView({behavior:RM()?'auto':'smooth',inline:'center',block:'nearest'});draft.cls=c.dataset.c;pick();});
-    requestAnimationFrame(()=>{const el=car.querySelector(`[data-c="${draft.cls}"]`);if(el)car.scrollLeft=el.offsetLeft-(car.clientWidth-el.offsetWidth)/2;});
+    const centerOn=(el,smooth)=>{const cr=car.getBoundingClientRect(),r=el.getBoundingClientRect();
+      const left=car.scrollLeft+(r.left-cr.left-car.clientLeft)-(car.clientWidth-r.width)/2;
+      car.scrollTo({left,behavior:smooth&&!RM()?'smooth':'auto'});};
+    car.querySelectorAll('.cls-card').forEach(c=>c.onclick=e=>{if(e.target.closest('summary,details'))return;clickAt=Date.now();mark(c.dataset.c);centerOn(c,true);});
+    requestAnimationFrame(()=>{const el=car.querySelector(`[data-c="${draft.cls}"]`);if(el){centerOn(el,false);mark(draft.cls);}});
     next.textContent='이 직업으로 ▶';
   }else{
     b.innerHTML=`<div class="wz-step"><h2>3. 내 컴퓨터</h2><p class="muted small">설치 명령어가 운영체제에 맞게 바뀝니다. 나중에 메뉴에서 바꿀 수 있어요.</p>
@@ -236,7 +248,8 @@ function renderHUD(animate){
   $('#hudAvatar').innerHTML=sprite(SPRITES[CLASSES[S.cls].spr],{},4);
   $('#hudName').textContent=S.nick;
   $('#hudDay').textContent=dayInfo().label;
-  $('#hudCls').textContent=rankOf(S.cls,S.done)[1]+' · '+CLASSES[S.cls].name+' · '+(S.os==='mac'?'Mac':'Windows');
+  const rk=rankOf(S.cls,S.done)[1], cn=CLASSES[S.cls].name;
+  $('#hudCls').textContent=rk===cn?rk:rk+' · '+cn;
   $('#hudLv').textContent='Lv.'+lv;
   const bar=$('#xpBar'); if(!animate){bar.style.transition='none';}
   bar.style.width=(max?100:Math.min(100,(xp-lo)/(hi-lo)*100))+'%';
@@ -254,7 +267,7 @@ function renderCTA(){
   if(!q){c.classList.add('hidden');return;}
   const di=dayInfo();
   c.classList.remove('hidden');
-  c.innerHTML=`<span class="t">다음 퀘스트 ▶ ${esc(q.title)}</span>${di.rec?`<small>오늘 추천 ${di.rec}개</small>`:''}`;
+  c.innerHTML=`<span class="t">다음 ▶ ${esc(q.title)}</span>${di.rec?`<small>오늘 추천 ${di.rec}개 · ${esc(TRACK_SHORT[q.track])}</small>`:''}`;
   c.onclick=()=>openQuest(q.id);
 }
 function renderView(){ if(S.tab==='office')renderOffice(); else renderMap(S.tab); }
@@ -281,13 +294,13 @@ function renderMap(t){
       const ic=!open?icon('lock',22):d?icon('check',24):q.boss?icon('skull',32):icon('bang',22);
       nodes+=`<button class="${cls}" data-q="${q.id}" style="top:${y}px;left:calc(50% + ${x}px)" aria-label="${esc(q.title)}${d?' (완료)':''}${open?'':' (잠김)'}">
         <span class="orb">${ic}${S.verified[q.id]?'<span class="vtag">검증</span>':''}</span><span class="nt">${esc(q.title)}</span><span class="nx">+${xpOf(q)} XP</span></button>`;
-      y+=size+56;
+      y+=size+70;
     });
     const H=y-20;
     const poly=pts.map(([x,yy])=>`${x+120},${yy}`).join(' ');
     html+=`<div class="path" style="height:${H}px"><svg class="road" width="240" height="${H}" viewBox="0 0 240 ${H}" aria-hidden="true"><polyline points="${poly}" fill="none" stroke="#3a5a4e" stroke-width="4" stroke-dasharray="8 8"/></svg>${nodes}</div></section>`;
   });
-  html+=`<footer>재테크 트랙은 금융 교육용 체크리스트입니다. 특정 상품·종목 추천이나 투자 자문이 아니며, 최종 판단은 본인 몫입니다.<br>진행 상황은 이 브라우저에만 저장됩니다. 다른 기기로 옮길 땐 메뉴의 세이브 코드를 쓰세요.</footer>`;
+  html+=`<footer>${t==='finance'?'재테크 트랙은 금융 교육용 체크리스트입니다. 특정 상품·종목 추천이나 투자 자문이 아니며, 최종 판단은 본인 몫입니다.<br>':''}진행 상황은 이 기기에 저장됩니다. 다른 기기로 옮길 땐 메뉴의 세이브 코드를 쓰세요.</footer>`;
   $('#view').innerHTML=html;
   $$('#view .node').forEach(b=>b.onclick=()=>{
     const q=qById(b.dataset.q);
@@ -327,6 +340,7 @@ function renderOffice(){
 
 /* ---------- 퀘스트 시트 ---------- */
 let curQ=null, copies=[];
+const phMark=h=>h.replace(/\[[^\]\n]{1,40}\]/g,m=>`<mark class="ph" title="여기를 내 상황으로 바꾸세요">${m}</mark>`);
 const cmdText=c=>typeof c==='string'?c:(c[S.os]||c.mac);
 function stepsOf(id){return S.steps[id]||(S.steps[id]=[]);}
 function openQuest(id,swap){
@@ -338,7 +352,8 @@ function openQuest(id,swap){
     if(typeof s==='string')body=`<span class="tx">${esc(s)}</span>`;
     else{
       body=`<span class="tx">${esc(s.t)}</span>`;
-      if(s.cmd){const t=cmdText(s.cmd);body+=`<div class="cmd"><code>${esc(t)}</code><button data-ci="${cp(t)}">복사</button></div>`;}
+      if(s.keys)body+=`<div class="keys">${esc(cmdText(s.keys)).split(' → ').map(k=>`<kbd>${k}</kbd>`).join('<span class="arr">→</span>')}</div>`;
+      if(s.cmd){const t=cmdText(s.cmd);body+=`<div class="cmd"><code>${phMark(esc(t))}</code><button data-ci="${cp(t)}">복사</button></div>`;}
       if(s.link)body+=`<div><a class="btn ghost linkbtn" href="${esc(s.link[1])}" target="_blank" rel="noopener">${esc(s.link[0])} ↗</a></div>`;
       if(s.file)body+=`<pre class="file">${esc(s.file)}</pre><button class="copyb" data-ci="${cp(s.file)}">내용 복사</button>`;
     }
@@ -347,12 +362,12 @@ function openQuest(id,swap){
   }).join('');
   const calc=q.calc?`<div class="calc">
     <label>목표 금액(만원)<input type="number" inputmode="decimal" id="cGoal" value="5000"></label>
-    <label>기간(년)<input type="number" inputmode="decimal" id="cYears" value="3"></label>
+    <label>기간(년)<input type="number" inputmode="decimal" id="cYears" value="3" min="1"></label>
     <label>지금 모아둔 돈(만원)<input type="number" inputmode="decimal" id="cNow" value="0"></label>
     <label>예상 연수익률(%)<input type="number" inputmode="decimal" id="cRate" value="3" step="0.5"></label>
     <div class="out" id="cOut"></div>
     <div class="small muted" style="grid-column:1/-1">수익률은 가정일 뿐이다. 보수적으로 잡을수록 안전하다. 입력한 숫자는 저장되지 않는다.</div></div>`:'';
-  const ver=VERIFY[id]?`<div class="verify"><b class="px small">결과 붙여넣기 (선택 · 검증 시 XP +20%)</b>
+  const ver=VERIFY[id]&&(!d||S.verified[id])?`<div class="verify"><b class="px small">결과 붙여넣기 (선택 · 검증 시 XP +20%)</b>
     ${S.verified[id]?'<div class="msg"><span class="stamp">✓ 검증됨</span></div>':`<div class="row"><input type="text" id="vIn" placeholder="터미널에 나온 결과를 붙여넣기" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn ghost" id="vBtn">확인</button></div><div class="msg" id="vMsg"></div>`}</div>`:'';
   const hp=q.boss?`<div class="hp" id="hp"><div class="lab"><span>BOSS HP</span><span id="hpTxt"></span></div><div class="track"><i id="hpBar"></i></div></div>`:'';
   $('#qBody').innerHTML=`
@@ -375,7 +390,7 @@ function openQuest(id,swap){
 function remaining(q){return S.done[q.id]?0:q.steps.length-stepsOf(q.id).length;}
 function renderBar(q){
   const d=!!S.done[q.id], left=remaining(q), xp=xpOf(q);
-  $('#qBar').innerHTML=`<button class="iconbtn" id="closeQ" aria-label="닫기">${icon('close',18)}</button><button class="iconbtn" id="sosBtn" aria-label="막혔어요 SOS" style="color:var(--red)">${icon('sos',22)}</button>`+
+  $('#qBar').innerHTML=`<button class="iconbtn" id="closeQ" aria-label="닫기">${icon('close',18)}</button><button class="iconbtn sosb" id="sosBtn" aria-label="막혔어요 SOS">${icon('sos',18)}<span>SOS</span></button>`+
     (d?`<button class="btn ghost wide" id="undoQ">완료 취소</button>`:`<button class="btn mint wide" id="doneQ" ${left?'disabled':''}>${left?`남은 단계 ${left}개`:`클리어! +${xp} XP${S.verified[q.id]?' (검증 +20%)':''}`}</button>`);
   $('#closeQ').onclick=closeLayer;
   $('#sosBtn').onclick=()=>sos(q);
@@ -410,7 +425,9 @@ function sos(q){
   copy(`[SOS] ${q.id} ${q.title} / ${S.os==='mac'?'Mac':'Windows'} / Lv.${level(xpTotal())} / 마지막 체크: ${last?last+'단계':'없음'}\n어느 단계에서: \n화면에 나온 메시지(복사 또는 캡처): \n`,'SOS 양식을 복사했어요. 길드 단톡방에 붙여넣고 캡처를 같이 올려주세요');
 }
 function calcRun(){
-  const goal=(+$('#cGoal').value||0)*1e4, n=Math.max(1,Math.round((+$('#cYears').value||0)*12)), now=(+$('#cNow').value||0)*1e4, r=(+$('#cRate').value||0)/100/12;
+  const yrs=+$('#cYears').value;
+  if(!(yrs>=1)){$('#cOut').textContent='기간은 1년 이상으로 입력해 주세요';return;}
+  const goal=(+$('#cGoal').value||0)*1e4, n=Math.round(yrs*12), now=(+$('#cNow').value||0)*1e4, r=(+$('#cRate').value||0)/100/12;
   const fvNow=now*Math.pow(1+r,n), need=Math.max(0,goal-fvNow);
   const pmt=Math.abs(r)<1e-9?need/n:need*r/(Math.pow(1+r,n)-1);
   $('#cOut').textContent=Number.isFinite(pmt)&&pmt>=0?`매달 약 ${Math.ceil(pmt/1e4).toLocaleString()}만원`:'입력값을 확인해 주세요';

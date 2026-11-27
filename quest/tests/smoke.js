@@ -187,6 +187,68 @@ async function run(name,ctxOpts,opts={}){
   await ctx.close();
 }
 
+
+/* 직업 선택이 캐러셀에서 정확히 저장되는지(데스크톱 폭에서 한 칸 어긋나던 버그) */
+async function classPick(name,ctxOpts){
+  console.log(`\n[${name} 직업 선택]`);
+  const errors=[];
+  const ctx=await browser.newContext({...ctxOpts,serviceWorkers:'block'});
+  const page=await ctx.newPage();
+  page.on('pageerror',e=>errors.push(e.message));
+  for(const mode of ['click','swipe']){
+    for(const k of ['ceo','investor','hybrid']){
+      await page.goto(BASE);await page.evaluate(()=>localStorage.clear());await page.reload();
+      await page.click('#title .logo');await page.fill('#nick','선택');await page.click('#wzNext');
+      await page.waitForSelector('#car');await sleep(200);
+      if(mode==='click')await page.click(`#car [data-c=${k}] .motto`);
+      else await page.$eval('#car',(car,k)=>{const el=car.querySelector(`[data-c=${k}]`);const cr=car.getBoundingClientRect(),r=el.getBoundingClientRect();
+        car.scrollLeft+= (r.left-cr.left)-(car.clientWidth-r.width)/2;},k);
+      await sleep(1100);
+      const hl=await page.$eval('#car .cls-card.on',e=>e.dataset.c);
+      await page.click('#wzNext');await page.click('#osPick [data-os=win]');await page.click('#wzNext');
+      await page.waitForSelector('#app:not(.hidden)');
+      const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('levelup-guild-v1')).cls);
+      ok(saved===k&&hl===k,`${mode}: ${k} 선택 → 저장 ${saved}, 강조 ${hl}`);
+    }
+  }
+  ok(!errors.length,'페이지 에러 0 '+errors.join(','));
+  await ctx.close();
+}
+
+/* iPhone SE 스크린샷 */
+async function seShots(){
+  console.log('\n[iPhone SE 스크린샷]');
+  const ctx=await browser.newContext({...devices['iPhone SE'],serviceWorkers:'block'});
+  const page=await ctx.newPage(); const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  const shot=n=>page.screenshot({path:path.join(SHOTS,`se-${n}.png`)});
+  await page.goto(BASE);
+  await page.click('#title .logo');await page.fill('#nick','SE유저');await page.click('#wzNext');
+  await page.waitForSelector('#car');await sleep(400);await shot('wizard-class');
+  const cta=await page.$eval('#wzNext',e=>e.getBoundingClientRect().top), dots=await page.$eval('#cdots',e=>e.getBoundingClientRect().bottom);
+  ok(dots<=cta,'위저드 2단계 CTA가 캐러셀 점을 가리지 않음'+` dots ${dots|0} / cta ${cta|0}`);
+  await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await sleep(150);
+  const cardB=await page.$eval('#car .cls-card.on',e=>e.getBoundingClientRect().bottom), cta2=await page.$eval('#wzNext',e=>e.getBoundingClientRect().top);
+  ok(cardB<=cta2,`스크롤 끝에서 직업 카드 전체가 CTA 위에 보임(${cardB|0} ≤ ${cta2|0})`);
+  await page.evaluate(()=>window.scrollTo(0,0));
+  await page.goto(BASE);
+  await page.evaluate(()=>{const done={};['a-acc','a-term','a-git','a-code','a-boss0','a-install','a-first','a-rules','a-ag1','a-ag2','a-ag3'].forEach(i=>done[i]=1);
+    localStorage.setItem('levelup-guild-v1',JSON.stringify({v:2,nick:'SE유저',cls:'ceo',os:'mac',done,t0:Date.now()-3*864e5}));});
+  await page.reload();await page.click('#continueBtn');await page.waitForSelector('#app:not(.hidden)');
+  await sleep(900);await shot('map');
+  // 마지막 노드가 CTA에 가리지 않는지: 맨 아래로 스크롤 후 마지막 노드 하단 < CTA 상단
+  await page.evaluate(()=>{const ns=[...document.querySelectorAll('#view .chapter')].filter(c=>!c.classList.contains('locked')).pop();ns.querySelector('.node:last-of-type').scrollIntoView({block:'end'});});
+  await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await sleep(200);
+  const last=await page.$$eval('#view .node',ns=>ns[ns.length-1].getBoundingClientRect().bottom), ctaTop=await page.$eval('#nextCta',e=>e.getBoundingClientRect().top);
+  ok(last<=ctaTop,`맨 아래 노드가 CTA 위에 보임(${last|0} ≤ ${ctaTop|0})`);
+  await page.evaluate(()=>openQuest('a-boss2'));await sleep(500);await shot('boss2-sheet');
+  ok(!!(await page.$('#qBody mark.ph')),'자리표시 [..] 강조');
+  ok(await page.$eval('#qBody .cmd code',e=>getComputedStyle(e).whiteSpace)==='pre-wrap','명령어 줄바꿈');
+  ok(await page.$eval('#sosBtn',e=>e.textContent.includes('SOS')),'SOS 글자 라벨');
+  ok(!errors.length,'페이지 에러 0 '+errors.join(','));
+  await ctx.close();
+}
+
 let browser, BASE, server;
 (async()=>{
   const port=await freePort();
@@ -198,6 +260,9 @@ let browser, BASE, server;
     await run('iphone13',{...devices['iPhone 13']},{integrity:true});
     await run('pixel7',{...devices['Pixel 7']},{sw:true});
     await run('desktop',{viewport:{width:1280,height:800}});
+    await classPick('desktop1280',{viewport:{width:1280,height:800}});
+    await classPick('iphone13',{...devices['iPhone 13']});
+    await seShots();
   }catch(e){fails++;console.error(e);}
   finally{if(browser)await browser.close();server.kill();}
   console.log(fails?`\nFAIL (${fails})`:'\nPASS');
