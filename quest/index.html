@@ -54,7 +54,20 @@
   .classes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0;}
   .cls-card{background:var(--panel-2);border:3px solid var(--line);padding:14px;text-align:left;color:var(--ink);}
   .cls-card.on{border-color:var(--gold);box-shadow:0 0 0 3px #f5c54233;}
-  .cls-card b{display:block;font-size:1.05rem;margin:6px 0 2px;}
+  .cls-card b{display:block;font-size:1.2rem;margin:6px 0 2px;color:var(--gold);}
+  .cls-card .motto{display:block;font-style:italic;color:var(--ink);font-size:.88rem;margin-bottom:6px;}
+  .cls-card .stat{display:flex;align-items:center;gap:6px;font-size:.75rem;margin:3px 0;}
+  .cls-card .stat i{flex:1;height:8px;background:#0d1714;border:1px solid var(--line);position:relative;}
+  .cls-card .stat i::after{content:"";position:absolute;inset:0;width:var(--v);background:var(--mint);}
+  .cls-card .meta2{font-size:.75rem;color:var(--muted);margin-top:6px;line-height:1.5;}
+  .cls-card .route{font-size:.72rem;color:var(--muted);margin-top:6px;border-top:1px dashed var(--line);padding-top:6px;}
+  .cls-card.hid{border-style:dashed;opacity:.85;}
+  .cls-top{display:flex;align-items:flex-end;gap:10px;}
+  .jobup{text-align:center;}
+  .jobup .spr{animation:none;}
+  .jobup .big{font-size:1.6rem;color:var(--gold);text-shadow:3px 3px 0 #000;margin:8px 0;}
+  .jobup .glow{display:inline-block;padding:14px;background:radial-gradient(#f5c54255,transparent 70%);animation:glow 1s ease-in-out infinite alternate;}
+  @keyframes glow{to{filter:brightness(1.4);transform:scale(1.05);}}
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
   input[type=text],input[type=number],textarea,select{
     background:#0d1714;color:var(--ink);border:2px solid var(--line);padding:9px 10px;font:inherit;border-radius:2px;
@@ -142,12 +155,13 @@
   <section id="start" class="box">
     <div class="px muted small">LEVEL-UP GUILD · v0.1 MVP</div>
     <h1 class="px">레벨업 길드</h1>
-    <p>코딩을 몰라도 됩니다. 퀘스트를 하나씩 깨면 내 컴퓨터에 개발 환경이 깔리고, 나 대신 일하는 AI 동료가 한 명씩 사무실에 출근합니다. 재테크 트랙은 같은 방식으로 내 돈의 지도를 그립니다.</p>
+    <p>코딩을 몰라도 됩니다. AI 회사 사장님은 퀘스트를 깰 때마다 AI 직원이 한 명씩 출근하고, 결국 내 이름으로 된 회사를 세웁니다. 재야의 재테크 고수는 같은 방식으로 내 돈의 지도를 그립니다. 레벨이 오르면 전직합니다.</p>
 
     <h2 style="margin-top:18px">1. 이름</h2>
     <div class="row"><input id="nick" type="text" maxlength="16" placeholder="길드에서 불릴 닉네임"></div>
 
-    <h2 style="margin-top:18px">2. 직업 선택</h2>
+    <h2 style="margin-top:18px">2. 어떤 길을 걸을까?</h2>
+    <p class="muted small" style="margin-top:-4px">레벨이 오르면 전직하면서 칭호와 스킬이 바뀝니다. 직업은 나중에 ⚙에서 바꿀 수 있어요.</p>
     <div class="classes" id="classes"></div>
 
     <h2 style="margin-top:18px">3. 내 컴퓨터</h2>
@@ -235,11 +249,33 @@ const SPRITES = {
 
 /* ---------- 직업 ---------- */
 const CLASSES = {
-  agent:  {name:'에이전트 조련사', desc:'나 대신 일하는 AI 팀을 꾸린다. 설치 → 첫 동료 → 팀 → 픽셀 오피스.', spr:'hero', tracks:['agent']},
-  finance:{name:'재테크 설계자', desc:'내 돈의 현재 위치를 파악하고, 목표와 자동화까지 설계한다.', spr:'finance', tracks:['finance']},
-  both:   {name:'멀티클래스', desc:'두 트랙 모두. 마지막엔 재무 비서 에이전트가 월간 리포트를 쓴다.', spr:'both', tracks:['agent','finance']},
-  founder:{name:'1인 창업가', desc:'폰 하나로 개인사업자 등록부터 첫 매출, 세금 루틴까지. AI 팀은 직원으로 쓴다.', spr:'founder', tracks:['founder','agent']},
+  ceo:{name:'AI 회사 사장님', motto:'"일은 AI 직원이, 결재는 내가"', spr:'hero', tracks:['agent','founder'],
+    desc:'나 대신 일하는 AI 직원을 뽑고, 개인사업자 등록부터 첫 매출까지 내 회사를 세운다.',
+    stats:{'자동화':5,'실행력':4,'자산':2}, weapon:'Claude Code', item:'사업자등록증(예정)',
+    fit:'반복 업무에 지친 직장인, 부업·창업 준비생',
+    ranks:[[1,'알바 사장님','아직 직원이 없다. 모든 일을 손으로 한다.'],
+           [3,'1인 기업 대표','스킬 습득: 서브에이전트 소환 — 전문 직원을 뽑을 수 있다.'],
+           [6,'AI 군단장','스킬 습득: 3인 협공 — 명령 하나로 직원 셋이 일을 주고받는다.'],
+           [9,'무인 회사 회장님','스킬 습득: 월요일 자동 결재 — 출근 전에 일이 끝나 있다.']]},
+  investor:{name:'재야의 재테크 고수', motto:'"소문 말고 숫자로 번다"', spr:'finance', tracks:['finance'],
+    desc:'내 돈의 지도를 그리고 방패(비상금)를 들고, 목표와 절세 계좌로 자산을 설계한다.',
+    stats:{'자동화':2,'실행력':3,'자산':5}, weapon:'스프레드시트 + Claude', item:'3개월치 거래내역',
+    fit:'돈이 어디로 새는지 모르는 사람, 사회초년생',
+    ranks:[[1,'동네 짠테크러','가계부를 써본 적은 있다. 끝까지 간 적은 없다.'],
+           [3,'가계부 검객','스킬 습득: 지출 해부 — 새는 돈 3곳을 찾아낸다.'],
+           [5,'재야의 재테크 고수','스킬 습득: 보물 지도 — 목표마다 월 적립액이 보인다.'],
+           [7,'경제적 자유인','스킬 습득: 자동 사냥 — 월급이 들어오면 알아서 나뉜다.']]},
+  hybrid:{name:'사장님 겸 고수', hidden:true, motto:'"회사도 돈도 시스템으로"', spr:'both', tracks:['agent','founder','finance'],
+    desc:'두 길을 모두 걷는 히든 직업. 퀘스트가 가장 많고, 마지막엔 AI 경리와 재무 비서가 함께 일한다.',
+    stats:{'자동화':4,'실행력':4,'자산':4}, weapon:'둘 다', item:'체력',
+    fit:'욕심 많은 사람',
+    ranks:[[1,'수상한 신입','두 갈래 길 앞에 섰다.'],
+           [3,'투잡 모험가','스킬 습득: 이중 장부 — 회사 돈과 내 돈을 나눠 본다.'],
+           [6,'N잡 마스터','스킬 습득: 분신술 — AI 경리와 재무 비서가 동시에 움직인다.'],
+           [9,'시스템 부자','스킬 습득: 무한 루프 — 회사가 번 돈이 자산 설계로 흘러간다.']]},
 };
+const LEGACY={agent:'ceo',founder:'ceo',finance:'investor',both:'hybrid'};
+function rankOf(cls,lv){let r=CLASSES[cls].ranks[0];CLASSES[cls].ranks.forEach(x=>{if(lv>=x[0])r=x;});return r;}
 const TRACK_NAME = {agent:'🤖 AI 에이전트 팀', finance:'💰 재테크 설계', founder:'🏪 1인 창업'};
 
 /* ---------- 퀘스트 데이터 ----------
@@ -581,6 +617,7 @@ tools: Read, Write
 /* ---------- 상태 ---------- */
 const KEY='levelup-guild-v1';
 let S = JSON.parse(localStorage.getItem(KEY)||'null') || {nick:'',cls:'',os:'',done:{},badges:[],tab:null,t0:Date.now()};
+if(LEGACY[S.cls])S.cls=LEGACY[S.cls];
 const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 const $=s=>document.querySelector(s);
 const quests=()=>Q.filter(q=>q.id);
@@ -591,7 +628,14 @@ function level(xp){let l=1;LV.forEach((t,i)=>{if(xp>=t)l=i+1;});return Math.min(
 /* ---------- 시작 화면 ---------- */
 function renderStart(){
   $('#classes').innerHTML=Object.entries(CLASSES).map(([k,c])=>
-    `<button class="cls-card ${S.cls===k?'on':''}" data-c="${k}">${sprite(SPRITES[c.spr],{},5)}<b>${c.name}</b><span class="small muted">${c.desc}</span></button>`).join('');
+    `<button class="cls-card ${S.cls===k?'on':''} ${c.hidden?'hid':''}" data-c="${k}">
+      <div class="cls-top">${sprite(SPRITES[c.spr],{},6)}<div>${c.hidden?'<span class="px small muted">HIDDEN</span>':''}<b>${c.name}</b></div></div>
+      <span class="motto">${c.motto}</span>
+      <span class="small muted">${c.desc}</span>
+      ${Object.entries(c.stats).map(([n,v])=>`<span class="stat"><span style="width:44px">${n}</span><i style="--v:${v*20}%"></i></span>`).join('')}
+      <div class="meta2">주무기: ${c.weapon}<br>시작 장비: ${c.item}<br>추천: ${c.fit}</div>
+      <div class="route px">${c.ranks.map(r=>r[1]).join(' → ')}</div>
+    </button>`).join('');
   document.querySelectorAll('.cls-card').forEach(b=>b.onclick=()=>{S.cls=b.dataset.c;renderStart();});
   document.querySelectorAll('#osSeg button').forEach(b=>{b.classList.toggle('on',S.os===b.dataset.os);b.onclick=()=>{S.os=b.dataset.os;renderStart();};});
   $('#nick').value=S.nick||$('#nick').value;
@@ -610,7 +654,7 @@ function renderHUD(){
   const xp=xpTotal(),lv=level(xp),lo=LV[lv-1]||0,hi=LV[lv]||lo+1000;
   $('#hudAvatar').innerHTML=sprite(SPRITES[CLASSES[S.cls].spr],{},5);
   $('#hudName').textContent=S.nick;
-  $('#hudCls').textContent=CLASSES[S.cls].name+' · '+(S.os==='mac'?'Mac':'Windows');
+  $('#hudCls').textContent=rankOf(S.cls,lv)[1]+' · '+CLASSES[S.cls].name+' · '+(S.os==='mac'?'Mac':'Windows');
   $('#hudLv').textContent='Lv.'+lv;
   $('#xpBar').style.width=Math.min(100,(xp-lo)/(hi-lo)*100)+'%';
   $('#xpTxt').textContent=`${xp} / ${hi} XP`;
@@ -707,6 +751,19 @@ function complete(q){
   if(after>before)msg=`LEVEL UP! Lv.${after} · `+msg;
   if(q.badge)msg+=` · 🏅 ${q.badge}`;
   toast(msg);
+  const r0=rankOf(S.cls,before), r1=rankOf(S.cls,after);
+  if(r0[1]!==r1[1])setTimeout(()=>jobUp(r0,r1),900);
+}
+function jobUp(r0,r1){
+  $('#toast').classList.remove('on');
+  $('#sBody').innerHTML=`<div class="jobup">
+    <div class="px small muted">JOB ADVANCEMENT</div>
+    <div class="glow">${sprite(SPRITES[CLASSES[S.cls].spr],{},9)}</div>
+    <div class="big px">전직 완료!</div>
+    <div class="muted">${r0[1]} → <b style="color:var(--gold)">${r1[1]}</b></div>
+    <div class="story" style="text-align:left">${r1[2]}</div>
+    <div class="actions" style="justify-content:center"><button class="btn" id="closeS">계속하기 ▶</button></div></div>`;
+  $('#sModal').classList.add('on');$('#closeS').onclick=closeModals;
 }
 function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('on'));}
 document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)closeModals();});
@@ -725,7 +782,7 @@ $('#saveBtn').onclick=()=>{
   $('#sModal').classList.add('on');
   $('#cpCode').onclick=()=>copy(saveCode(),'세이브 코드를 복사했어요');
   $('#closeS').onclick=closeModals;
-  $('#loadCode').onclick=()=>{try{S=JSON.parse(decodeURIComponent(escape(atob($('#codeIn').value.trim()))));save();closeModals();boot();toast('불러왔어요');}catch(e){toast('코드가 올바르지 않아요');}};
+  $('#loadCode').onclick=()=>{try{S=JSON.parse(decodeURIComponent(escape(atob($('#codeIn').value.trim()))));if(LEGACY[S.cls])S.cls=LEGACY[S.cls];save();closeModals();boot();toast('불러왔어요');}catch(e){toast('코드가 올바르지 않아요');}};
 };
 $('#setBtn').onclick=()=>{
   $('#sBody').innerHTML=`<h2>⚙ 설정</h2>
