@@ -333,3 +333,34 @@ mark.ph{background:none;color:var(--gold);font-weight:700;text-decoration:underl
   .cls-card details summary{min-height:44px;}
 }
 @media (max-width:400px){.cmd{flex-direction:column;}.cmd button{min-height:44px;align-self:flex-end;}}
+
+/* v1.1 묻기 */
+.sh-bar .sosb{width:56px;}
+.askb{color:var(--mint);}
+#askSheet{height:86vh;height:86dvh;}
+.ask-input{border-top:3px solid var(--line);background:#16241f;padding:8px 10px calc(10px + var(--sab));}
+.ask-row{display:flex;gap:6px;align-items:center;}
+.ask-row input[type=text]{flex:1;min-width:0;font-size:16px;}
+.ask-row .btn{min-height:48px;padding:8px 12px;}
+.ask-foot{display:flex;justify-content:space-between;gap:8px;font-size:.66rem;color:var(--muted);margin-top:6px;}
+.ask-foot .px{color:var(--gold);white-space:nowrap;}
+.ask-pv .pv{position:relative;display:inline-block;margin-bottom:6px;}
+.ask-pv img{height:64px;border:2px solid var(--line);display:block;}
+.ask-pv button{position:absolute;top:-8px;right:-8px;width:28px;height:28px;background:var(--red);color:#fff;border:2px solid #000;font-weight:700;padding:0;line-height:1;}
+.ask-note,.ask-intro{background:#0d1714;border:2px solid var(--line);padding:12px;margin:10px 0;font-size:.88rem;}
+.ask-intro{border-color:var(--gold);}
+.ask-hint{color:var(--muted);font-size:.85rem;text-align:center;margin:20px 0;}
+.ask-err{border-left:4px solid var(--red);background:#2a1717;padding:8px 10px;font-size:.85rem;margin:10px 0;}
+.ask-log{display:flex;flex-direction:column;gap:10px;padding:6px 0;}
+.msg{max-width:88%;font-size:.92rem;}
+.msg p{margin:0 0 6px;}
+.msg p:last-child{margin-bottom:0;}
+.msg.me{align-self:flex-end;background:#16362b;border:2px solid var(--mint);padding:8px 10px;}
+.msg .mthumb{max-width:180px;max-height:180px;display:block;margin-bottom:6px;border:2px solid #000;}
+.msg.gm{align-self:flex-start;display:flex;gap:8px;align-items:flex-start;}
+.msg.gm .gtx{background:#0d1714;border:2px solid var(--line);padding:8px 10px;min-width:0;flex:1;}
+.gav{flex-shrink:0;width:30px;height:36px;background:var(--panel-2);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.dots3{display:inline-flex;gap:4px;padding:4px 0;}
+.dots3 i{width:6px;height:6px;background:var(--gold);animation:blink 1s steps(2) infinite;}
+.dots3 i:nth-child(2){animation-delay:.33s;}.dots3 i:nth-child(3){animation-delay:.66s;}
+.dots3.inl{align-self:flex-end;margin-left:4px;}

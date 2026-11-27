@@ -18,9 +18,11 @@
 <link rel="preload" href="fonts/Galmuri11-sub.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Galmuri11-Bold-sub.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
+<script defer src="config.js"></script>
 <script defer src="data.js"></script>
 <script defer src="sfx.js"></script>
 <script defer src="app.js"></script>
+<script defer src="ask.js"></script>
 </head>
 <body>
 
@@ -78,6 +80,20 @@
 <section class="sheet" id="menuSheet" role="dialog" aria-modal="true" aria-label="메뉴">
   <div class="grab"><div class="handle"></div></div>
   <div class="sh-body" id="menuBody"></div>
+</section>
+<section class="sheet" id="askSheet" role="dialog" aria-modal="true" aria-label="길드 마스터에게 묻기">
+  <div class="grab"><div class="handle"></div></div>
+  <div class="sh-body" id="askBody"></div>
+  <div class="ask-input" id="askInput">
+    <div class="ask-pv" id="askPreview"></div>
+    <div class="ask-row">
+      <button class="iconbtn" id="askCam" aria-label="사진 찍기 또는 첨부"></button>
+      <input type="file" id="askFile" accept="image/*" capture="environment" hidden>
+      <input type="text" id="askText" placeholder="무엇이 막혔나요?" autocomplete="off" enterkeyhint="send" maxlength="1000">
+      <button class="btn mint" id="askSend">보내기</button>
+    </div>
+    <div class="ask-foot"><span id="askLeft" class="px"></span><span>사진은 Claude API로 전송돼요 · 민감정보는 가리고 찍기</span></div>
+  </div>
 </section>
 <div class="card-layer" id="resultCard" role="dialog" aria-modal="true"></div>
 <div class="card-layer jobup" id="jobCard" role="dialog" aria-modal="true"></div>

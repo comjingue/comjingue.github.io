@@ -1,6 +1,6 @@
 /* 레벨업 길드 service worker */
-const CACHE='levelup-guild-v1.0.2';
-const SHELL=['./','index.html','style.css','data.js','app.js','sfx.js','manifest.webmanifest'];
+const CACHE='levelup-guild-v1.1.0';
+const SHELL=['./','index.html','style.css','config.js','data.js','app.js','ask.js','sfx.js','manifest.webmanifest'];
 const STATIC=['fonts/Galmuri11-sub.woff2','fonts/Galmuri11-Bold-sub.woff2','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll([...SHELL,...STATIC])));
@@ -11,9 +11,10 @@ self.addEventListener('activate',e=>{
 self.addEventListener('message',e=>{if(e.data==='skipWaiting')self.skipWaiting();});
 self.addEventListener('fetch',e=>{
   const req=e.request;
-  if(req.method!=='GET')return;
+  if(req.method!=='GET')return;            // POST(묻기 /ask 포함)는 SW를 거치지 않고 네트워크로
   const url=new URL(req.url);
-  if(url.origin!==location.origin)return;
+  if(url.origin!==location.origin)return;  // 다른 origin(묻기 엔드포인트 등)은 통과: 캐시 안 함
+  if(/\/ask$/.test(url.pathname))return;
   const scope=new URL(self.registration.scope);
   if(!url.pathname.startsWith(scope.pathname))return;
   const isStatic=/\/(fonts|icons)\//.test(url.pathname);

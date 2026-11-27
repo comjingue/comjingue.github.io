@@ -27,6 +27,8 @@ const ICONS={
   skull:['...xxxxxx...','.xxxxxxxxxx.','.xxxxxxxxxx.','xx...xx...xx','xx...xx...xx','xxxxxxxxxxxx','.xxxxx.xxxx.','.xxxx...xxx.','..xxxxxxxx..','..x.x.x.x...','..xxxxxxxx..','............'],
   check:['............','...........x','..........xx','.........xx.','........xx..','x......xx...','xx....xx....','.xx..xx.....','..xxxx......','...xx.......','............','............'],
   bang:['.....xx.....','....xxxx....','....xxxx....','....xxxx....','.....xx.....','.....xx.....','.....xx.....','............','.....xx.....','.....xx.....','............','............'],
+  chat:['.xxxxxxxxxx.','x..........x','x..........x','x.xx.xx.xx.x','x..........x','x..........x','.xxxxxxxxxx.','...xx.......','..xx........','.xx.........','............','............'],
+  camera:['............','....xxxx....','.xxxxxxxxxx.','x..........x','x...xxxx...x','x..x....x..x','x..x....x..x','x..x....x..x','x...xxxx...x','x..........x','.xxxxxxxxxx.','............'],
   back:['............','.....xx.....','....xx......','...xx.......','..xx........','.xxxxxxxxxx.','.xxxxxxxxxx.','..xx........','...xx.......','....xx......','.....xx.....','............'],
   copy:['............','.xxxxxxx....','.x.....x....','.x..xxxxxxx.','.x..x.....x.','.x..x.....x.','.x..x.....x.','.xxxx.....x.','....x.....x.','....xxxxxxx.','............','............'],
   home:['.....xx.....','....xxxx....','...xx..xx...','..xx....xx..','.xx......xx.','xxxxxxxxxxxx','.x........x.','.x..xx....x.','.x..xx..x.x.','.x..xx....x.','.xxxxxxxxxx.','............'],
@@ -390,10 +392,11 @@ function openQuest(id,swap){
 function remaining(q){return S.done[q.id]?0:q.steps.length-stepsOf(q.id).length;}
 function renderBar(q){
   const d=!!S.done[q.id], left=remaining(q), xp=xpOf(q);
-  $('#qBar').innerHTML=`<button class="iconbtn" id="closeQ" aria-label="닫기">${icon('close',18)}</button><button class="iconbtn sosb" id="sosBtn" aria-label="막혔어요 SOS">${icon('sos',18)}<span>SOS</span></button>`+
+  $('#qBar').innerHTML=`<button class="iconbtn" id="closeQ" aria-label="닫기">${icon('close',18)}</button><button class="iconbtn sosb" id="sosBtn" aria-label="막혔어요 SOS">${icon('sos',18)}<span>SOS</span></button><button class="iconbtn sosb askb" id="askBtn" aria-label="길드 마스터에게 묻기">${icon('chat',18)}<span>묻기</span></button>`+
     (d?`<button class="btn ghost wide" id="undoQ">완료 취소</button>`:`<button class="btn mint wide" id="doneQ" ${left?'disabled':''}>${left?`남은 단계 ${left}개`:`클리어! +${xp} XP${S.verified[q.id]?' (검증 +20%)':''}`}</button>`);
   $('#closeQ').onclick=closeLayer;
   $('#sosBtn').onclick=()=>sos(q);
+  $('#askBtn').onclick=()=>Ask.open(q);
   if($('#doneQ'))$('#doneQ').onclick=()=>complete(q);
   if($('#undoQ'))$('#undoQ').onclick=()=>{delete S.done[q.id];save();refresh();openQuest(q.id,true);toast('완료를 취소했어요');};
 }
@@ -550,7 +553,8 @@ function openMenu(){
       <div class="mrow"><span>효과음</span><button class="toggle" role="switch" id="tgSfx" aria-checked="${S.sfx}" aria-label="효과음"></button></div>
       <div class="mrow"><span>진동</span><button class="toggle" role="switch" id="tgVibe" aria-checked="${S.vibe}" aria-label="진동"></button></div>
       <div class="mrow"><span>컴퓨터</span><select id="setOs"><option value="mac">Mac</option><option value="win">Windows</option></select></div>
-      <div class="mrow"><span>직업</span><select id="setCls">${Object.entries(CLASSES).map(([k,c])=>`<option value="${k}">${esc(c.name)}</option>`).join('')}</select></div></div>
+      <div class="mrow"><span>직업</span><select id="setCls">${Object.entries(CLASSES).map(([k,c])=>`<option value="${k}">${esc(c.name)}</option>`).join('')}</select></div>
+      <div class="mrow"><span>길드 참가 코드(묻기)</span><button class="btn ghost" id="clrAsk" ${typeof Ask!=='undefined'&&Ask.hasCode()?'':'disabled'}>참가 코드 지우기</button></div></div>
     <div class="menu-sec"><h3>${icon('home',16)} 홈 화면에 추가</h3>${install}</div>
     <div class="menu-sec"><div class="btnrow"><button class="btn ghost" id="closeM">닫기</button><button class="btn danger" id="resetAll">처음부터</button></div>
       <p class="small muted" style="text-align:center;margin-top:12px">레벨업 길드 · SEASON 1</p></div>`;
@@ -564,6 +568,7 @@ function openMenu(){
   $('#setCls').onchange=e=>{S.cls=e.target.value;if(S.tab!=='office'&&!tracksOf().includes(S.tab))S.tab=tracksOf()[0];save();refresh();$('#pcard').textContent=progressCard();toast('직업을 바꿨어요: '+CLASSES[S.cls].name);};
   if($('#installBtn'))$('#installBtn').onclick=async()=>{const p=deferredInstall;deferredInstall=null;p.prompt();try{await p.userChoice;}catch(e){}closeLayer();};
   $('#closeM').onclick=closeLayer;
+  $('#clrAsk').onclick=e=>{Ask.clearCode();e.currentTarget.disabled=true;toast('참가 코드를 지웠어요');};
   $('#resetAll').onclick=()=>{if(confirm('진행 상황이 모두 지워집니다. 계속할까요?')){try{localStorage.removeItem(KEY);}catch(e){}location.reload();}};
   $('#menuBody').scrollTop=0;
   openLayer($('#menuSheet'));
