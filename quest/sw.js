@@ -1,5 +1,5 @@
 /* 레벨업 길드 service worker */
-const CACHE='levelup-guild-v1.0.0';
+const CACHE='levelup-guild-v1.0.1';
 const SHELL=['./','index.html','style.css','data.js','app.js','sfx.js','manifest.webmanifest'];
 const STATIC=['fonts/Galmuri11-sub.woff2','fonts/Galmuri11-Bold-sub.woff2','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{

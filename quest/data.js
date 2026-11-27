@@ -73,7 +73,7 @@ const Q = [
 {id:'a-term',track:'agent',chap:0,title:'검은 창과 친해지기',sub:'터미널 여는 법',xp:50,
  story:'마법사들은 검은 창(터미널)에 주문을 적는다. 무섭게 생겼지만 복사-붙여넣기만 할 줄 알면 된다.',
  steps:[
-  {t:'터미널을 연다.',cmd:{mac:'⌘ + Space → "터미널" 입력 → Enter',win:'시작 버튼 우클릭 → "터미널" 또는 "Windows PowerShell"'}},
+  {t:'터미널을 연다.',keys:{mac:'⌘ + Space → "터미널" 입력 → Enter',win:'시작 버튼 우클릭 → "터미널" 또는 "Windows PowerShell"'}},
   {t:'아래 주문을 붙여넣고 Enter. 지금 있는 폴더 위치가 나오면 성공.',cmd:{mac:'pwd',win:'pwd'}},
  ],
  tip:'붙여넣기: Mac은 ⌘+V, Windows 터미널은 Ctrl+V 또는 마우스 우클릭.',
@@ -91,9 +91,9 @@ const Q = [
  story:'AI가 만든 파일을 열어 보고 고치는 작업대. 나중에 픽셀 오피스도 여기 들어온다.',
  steps:['code.visualstudio.com 에서 내 OS 버전을 받아 설치한다.','VS Code를 켜고 상단 메뉴 Terminal → New Terminal 을 눌러본다. 아래에 검은 창이 열리면 성공.'],
  clear:'VS Code 안에서 터미널이 열린다.'},
-{id:'a-boss0',track:'agent',chap:0,boss:true,title:'BOSS · 준비물 점검',sub:'4가지를 한 번에 확인',xp:120,
+{id:'a-boss0',track:'agent',chap:0,boss:true,title:'BOSS · 준비물 점검',sub:'준비물 한 번에 확인',xp:120,
  story:'문지기가 준비물을 검사한다.',
- steps:[{t:'VS Code 터미널에서 아래를 실행해 두 줄 모두 버전이 나오는지 확인',cmd:{mac:'git --version && code --version',win:'git --version; code --version'}}],
+ steps:[{t:'VS Code 터미널에서 아래를 실행해 버전 번호가 모두 나오는지 확인',cmd:{mac:'git --version && code --version',win:'git --version; code --version'}}],
  tip:'Mac에서 code 명령이 없다고 나오면: VS Code에서 ⌘+Shift+P → "Shell Command: Install \'code\' command in PATH".',
  clear:'두 버전이 모두 출력되고, claude.ai 유료 플랜이 활성 상태다.', badge:'준비된 모험가'},
 
@@ -174,7 +174,7 @@ tools: Read, Write, Edit
  ],
  clear:'내 업무 전용 에이전트가 실제 결과물을 한 번 이상 냈다.', badge:'파티 리더'},
 {id:'a-boss2',track:'agent',chap:2,boss:true,title:'BOSS · 3인 협공',sub:'한 번의 명령으로 셋을 움직이기',xp:250,
- story:'진짜 팀은 서로 일을 넘긴다. 리서처가 조사하고, 작가가 쓰고, 비서가 일정에 넣는다.',
+ story:'진짜 팀은 서로 일을 넘긴다. 리서처가 조사하고, 내 커스텀 동료가 정리하고, 비서가 일정에 넣는다.',
  steps:[{t:'예시 명령',cmd:'researcher 로 [주제] 를 조사하고, 그 결과로 내 커스텀 에이전트가 1페이지 요약을 쓰고, secretary 가 todo.md 에 후속 할 일을 추가해줘'}],
  clear:'파일 3개(조사, 요약, todo 업데이트)가 한 번의 명령으로 생겼다.', badge:'3인 협공 격파'},
 
@@ -202,7 +202,7 @@ description: 주간 보고서를 쓸 때 사용. 이번 주 todo.md 와 작업 �
  ],
  clear:'스킬 이름만 말해도 같은 형식의 보고서가 나온다.'},
 {id:'a-office',track:'agent',chap:3,title:'픽셀 오피스 개장',sub:'일하는 동료를 눈으로 보기',xp:150,
- story:'이 페이지 위쪽 사무실은 연습용이다. 진짜 사무실은 VS Code 안에 차린다.',
+ story:'하단 '사무실' 탭은 연습용이다. 진짜 사무실은 VS Code 안에 차린다.',
  steps:[
   'VS Code 왼쪽 확장(Extensions) 아이콘 → "Pixel Agents" 같은 픽셀 에이전트 시각화 확장을 검색한다.',
   '설치 전 제작자, 다운로드 수, 최근 업데이트 날짜를 확인한다. 커뮤니티 확장이라 공식 제품은 아니다.',
@@ -287,9 +287,10 @@ description: 주간 보고서를 쓸 때 사용. 이번 주 todo.md 와 작업 �
  tip:'터미널 여는 법을 모르면 에이전트 트랙의 "검은 창과 친해지기"를 참고한다. Windows는 git 이 없으면 git init 에서 에러가 난다 — 그 줄은 빼고 실행해도 된다.',
  clear:'claude 가 실행된다.'},
 {id:'f-cfo',track:'finance',chap:3,title:'재무 비서 고용',sub:'월간 리포트를 쓰는 에이전트',xp:250,unlock:'cfo',
- story:'에이전트 트랙과 만나는 지점. 매달 거래내역을 주면 리포트를 써주는 동료를 둔다. (에이전트 트랙 1장을 먼저 깨면 쉽다)',
+ story:'에이전트 트랙과 만나는 지점. 매달 거래내역을 주면 리포트를 써주는 동료를 둔다. 앞의 소환진 퀘스트를 깼다면 준비 끝.',
  steps:[
-  {t:'.claude/agents/cfo.md',file:`---
+  'my-guild 폴더 안에 finance 폴더를 만든다. 1페이지 설계서를 finance/plan.md 로, 지난달 거래내역 CSV(개인정보 지운 것)를 finance/ 에 넣는다.',
+  {t:'claude 에게 "아래 내용으로 .claude/agents/cfo.md 파일을 만들어줘"라고 하고 아래 내용을 붙여넣는다.',file:`---
 name: cfo
 description: 월간 가계 리포트가 필요할 때 사용. 거래내역 CSV를 읽고 설계서와 비교한다.
 tools: Read, Write
@@ -371,7 +372,7 @@ tools: Read, Write
  clear:'세 문서가 판매 페이지에 걸려 있다.', badge:'영업 준비 완료'},
 
 {ch:'founder',chap:3,chapName:'첫 매출 — 무료 1기에서 유료 2기로',season2:true},
-{id:'b-page',track:'founder',chap:3,title:'판매 페이지 한 장',sub:'노션이나 지금 이 퀘스트 맵 아래에',xp:150,
+{id:'b-page',track:'founder',chap:3,title:'판매 페이지 한 장',sub:'노션 한 페이지면 충분',xp:150,
  story:'설명이 길면 안 산다. 누구를, 무엇까지, 얼마에, 언제.',
  steps:['1기 결과에서 숫자 2개와 후기 2개를 고른다 (예: 10명 중 8명 첫 소환 성공).',
   {t:'Claude 에 초안 요청',cmd:'아래 1기 결과로 2기 모집 페이지를 써줘. 대상, 4주 동안 얻는 것, 일정, 가격, 환불 규정 링크, 사업자 정보 표시 순서로. 과장 표현은 빼고 [결과와 후기 붙여넣기]'},
